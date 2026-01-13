@@ -1251,7 +1251,7 @@ int main_0(int bn,int qn,int nk,
             BatchCodeParams batch_code_params;
             batch_code_params.bucket_number = bucket_number;
             batch_code_params.hash_func_number = hash_func_number;
-            // TODO:调一下
+            
             batch_code_params.query_number = query_number;
             logs<<"Testing with " << number_of_keywords << " keywords, bucket number: " << bucket_number 
                  << ", keywords bit length: " << keywords_bit_length << ", value bit length: " << value_bit_length << endl;

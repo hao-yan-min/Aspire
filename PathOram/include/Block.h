@@ -16,7 +16,7 @@ public:
     int index;
     // int *data;
     // int data[BLOCK_SIZE];
-    std::shared_ptr<int[]> data; // 使用智能指针管理动态数组
+    std::shared_ptr<int[]> data; 
     Block();
     // Block(const Block &other);
     Block(int leaf_id, int index, int data[]);

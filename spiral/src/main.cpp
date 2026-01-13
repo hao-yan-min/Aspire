@@ -135,7 +135,7 @@ int main(int argc, char** argv) {
     vector<string> database;
     for(size_t i=0;i<total_n;i++)
     {
-        //生成随机的长度为2048byte的字符串
+        
         string item(2048,'b');
         random_device rd;
         mt19937_64 gen2(rd()); // NOT SECURE
@@ -170,7 +170,7 @@ int main(int argc, char** argv) {
     start_stage = chrono::high_resolution_clock::now();
     start = chrono::high_resolution_clock::now();
     start_timing();
-    //随机生成查询index；
+    
     // for(int i=0;i<15;i++)
     // {
     //     int query_index = rand() % database.size();
@@ -236,7 +236,7 @@ int main(int argc, char** argv) {
     auto elapsed = timer.elapsed();
     cout<<"Total query time over "<<test_size<<" queries: "<<elapsed <<" ms"<<endl;
     // pir.print_summary();
-    //以16进制打印
+    
     // for(size_t i=0;i<res.size();i++)
     // {
     //     printf("%02x ",(unsigned char)res[i]);

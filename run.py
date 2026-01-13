@@ -24,7 +24,7 @@ def run_complie(TEXP,TEXPRIGHT,TCONV,TGSW,QPBITS,PVALUE,QNUMFIRST,QNUMREST,OUTN,
     for cmd in cmds:
         last_res = subprocess.run(cmd, capture_output=True, text=True)
         if last_res.returncode != 0:
-            # 发生错误时立即返回包含 stdout/stderr 的结果
+            # Return result immediately with stdout/stderr if an error occurs
             return last_res
     return last_res
 def run_exe(bn,qn,nk,kbl,vbll,dim0,dim1,num_thread=1,pir_type="ORAM"):
@@ -118,7 +118,7 @@ if __name__ == "__main__":
         print(f"STDOUT:", res.stdout)
         print(f"STDERR:", res.stderr)
         idx+=1
-    if args.testcase !=0:
+    if args.testcase ==2:
         exit(0)
     # res=run_complie(params[idx]["TEXP"],params[idx]["TEXPRIGHT"],params[idx]["TCONV"],params[idx]["TGSW"],params[idx]["QPBITS"],params[idx]["PVALUE"],params[idx]["QNUMFIRST"],params[idx]["QNUMREST"],params[idx]["OUTN"],params[idx]["dim0"],params[idx]["dim1"])
     # if res.returncode != 0:

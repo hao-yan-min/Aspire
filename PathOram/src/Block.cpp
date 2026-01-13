@@ -42,7 +42,7 @@ Block::Block(int leaf_id, int index, int* data) : leaf_id(leaf_id), index(index)
 //         this->index = other.index;
 //         if(this->data!=NULL)
 //         {
-//             delete[] this->data; // 释放旧的内存
+//             delete[] this->data; 
 //         }
 //         this->data = new int[BLOCK_SIZE];
 //         for (int i = 0; i < BLOCK_SIZE; i++){

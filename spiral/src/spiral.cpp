@@ -409,11 +409,11 @@ void PIR::spiral_PIR::print_summary(vector<double>& test_data) {
     logs << "             Query generation (CPU·us): " << time_query_gen << endl;
     logs << "                     Decoding (CPU·us): " << time_decoding << endl;
     logs << endl;    
-    test_data.push_back(time_key_gen+time_expansion_main + time_expansion_further + time_conversion);  //总的初始化计算开销
-    test_data.push_back(total_offline_size_kb);                                                        //部分初始化通通信开销
-    test_data.push_back(time_first_multiply + time_folding + time_query_gen);                          //总的在线计算开销
-    test_data.push_back(total_query_size_kb + total_resp_size_kb);                                     //部分在线通信开销
-    test_data.push_back(time_query_gen+time_decoding);                                                 //客户端部分开销                       //数据库大小
+    test_data.push_back(time_key_gen+time_expansion_main + time_expansion_further + time_conversion); 
+    test_data.push_back(total_offline_size_kb);                                                        
+    test_data.push_back(time_first_multiply + time_folding + time_query_gen);                         
+    test_data.push_back(total_query_size_kb + total_resp_size_kb);                                    
+    test_data.push_back(time_query_gen+time_decoding);                                                 
 
 }
 
@@ -3646,7 +3646,7 @@ void PIR::spiral_PIR::process_crtd_query(
         g_Q_nttd,
         g_Q_crtd
     );
-    //TODO: 初始化
+    
     start_timing();
     uint64_t *g_Q_neg_crtd = (uint64_t *)malloc(query_later_inp_cts_crtd_size_bytes);
     #pragma omp parallel for
@@ -3681,7 +3681,7 @@ void PIR::spiral_PIR::process_crtd_query(
     uint64_t *g_C_fft = (uint64_t *)malloc(crt_count * query_C_crtd_size_bytes);
 
     record("preprocess query");
-    //TODO: 和查询index有关
+    
     process_query_fast(
         g_C_fft,      // expand this ct
         g_Ws_fft,
@@ -3782,7 +3782,7 @@ void PIR::spiral_PIR::query(size_t idx_target,string & res) {
     uint64_t *g_C_fft_crtd;
     uint64_t *g_Q_crtd;
     uint64_t *g_Ws_fft;
-    //TODO: 初始化内存，和查询无关
+    
     generate_setup_and_query(
         IDX_TARGET,
         &g_C_fft_crtd,      // expand this ct
@@ -3790,7 +3790,7 @@ void PIR::spiral_PIR::query(size_t idx_target,string & res) {
         &g_Ws_fft,          // use this setup data
         false               // no need to compress setup data
     );
-    //TODO: 和查询的index有关，部分无关，需要分离
+   
     process_crtd_query(
         expansionLocals,
         furtherDimsLocals,
@@ -3798,7 +3798,7 @@ void PIR::spiral_PIR::query(size_t idx_target,string & res) {
         g_Q_crtd,          // further dims query
         g_Ws_fft           // use this setup data
     );
-    //TODO: 和查询的index有关
+ 
     if (modswitch_on_server) {
         modswitch(furtherDimsLocals.result, furtherDimsLocals.cts);
     }
@@ -3890,7 +3890,7 @@ void PIR::spiral_PIR::query(size_t idx_target,string & res) {
     //cout<<"end"<<endl;
     string out;
     matpoly_to_string(M_result, out, (int)pt_mod);
-    //将Matpoly M_result转换成string返回
+    
     int offset=(idx_target*this->item_size)%pt_elem_size;
     res=string(this->item_size,'\0');
     for(int i=0;i<this->item_size;i++)
@@ -3902,13 +3902,13 @@ void PIR::spiral_PIR::query(size_t idx_target,string & res) {
 
 }
 void matpoly_to_string(const MatPoly& mat, string& out,int pt_mod) {
-    size_t total_size = mat.rows * mat.cols * poly_len*pt_mod/8;  //每一个item的大小
+    size_t total_size = mat.rows * mat.cols * poly_len*pt_mod/8;  
     out.resize(total_size);
     int idx=0;
     for(int i=0;i<out.size();i++)
     {
         int char_int=0;
-        for(int j=8/pt_mod-1;j>=0;j--) //pt_mod 可以是2bit或者8bit，对应4或者256
+        for(int j=8/pt_mod-1;j>=0;j--) 
         {
             char_int<<=pt_mod;
             char_int|=mat.data[i*(8/pt_mod)+j];
@@ -3951,7 +3951,7 @@ void PIR::spiral_PIR::encode_db(vector<string>& raw_db) {
         }
     }
     // this->set_DB(this->encoded_DB);
-    //将encoded_DB复制到raw_db中
+   
     raw_db.clear();
     for(auto & s:this->encoded_DB)
         raw_db.push_back(s);

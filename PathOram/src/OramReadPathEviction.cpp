@@ -73,9 +73,9 @@ OramReadPathEviction::OramReadPathEviction(UntrustedStorageInterface* storage, R
     RAND_bytes(this->key.get(), AES_KEY_LENGTH);
 
     for (int i = 0; i < this->num_blocks; i++){
-        position_map[i] = rand_gen->getRandomLeaf();  //为元素生成随机路径
+        position_map[i] = rand_gen->getRandomLeaf();  
     }
-    //初始化所有bucket为空bucket
+    
     for(int i = 0; i < num_buckets; i++){
 
         Bucket init_bkt = Bucket();
@@ -86,7 +86,7 @@ OramReadPathEviction::OramReadPathEviction(UntrustedStorageInterface* storage, R
     }
 
 
-    //将数据放入block中，并进行加密
+    
     vector<Block> init_blocks;
     // std::unique_ptr<int[]> newdata_ptr;
     // newdata_ptr = std::unique_ptr<int[]>(new int[Block::BLOCK_SIZE]);
@@ -101,14 +101,14 @@ OramReadPathEviction::OramReadPathEviction(UntrustedStorageInterface* storage, R
         RAND_bytes(iv, AES_KEY_LENGTH);
         memcpy(reinterpret_cast<unsigned char*>(raw_data_ptr),iv,AES_KEY_LENGTH);
         
-        //复制数据到plaintext
+        
         memcpy(plaintext, reinterpret_cast<unsigned char*>(init_data[i].data()), Block::BLOCK_SIZE * sizeof(int)-16);
         
         auto start = std::chrono::high_resolution_clock::now();
         aes_encrypt(plaintext, Block::BLOCK_SIZE * sizeof(int)-16, this->key.get(), iv, ciphertext);
         auto end = std::chrono::high_resolution_clock::now();
         enc_time += std::chrono::duration<double, std::milli>(end - start).count();
-         //复制密文到newdata_ptr
+         
         memcpy(reinterpret_cast<unsigned char*>(raw_data_ptr)+16, ciphertext, Block::BLOCK_SIZE * sizeof(int)-16);
         Block newBlock = Block(position_map[i], i, raw_data_ptr);
         delete[] raw_data_ptr;
@@ -117,7 +117,7 @@ OramReadPathEviction::OramReadPathEviction(UntrustedStorageInterface* storage, R
     }
     delete[] plaintext;
     delete[] ciphertext;
-    //将block写入oram,从底端往上写
+    
     // for(int leaf_id=0;leaf_id<num_leaves;leaf_id++){
     //     for(int level=num_levels-1;level>=0;level--){
     //         int Pxl = OramReadPathEviction::P(leaf_id, level);
@@ -162,7 +162,7 @@ OramReadPathEviction::OramReadPathEviction(UntrustedStorageInterface* storage, R
     for(auto & b:init_blocks)
     {
         for(int level=num_levels-1;level>=0;level--){
-            int Pxl = OramReadPathEviction::P(b.leaf_id, level); //找到对应的bucket位置
+            int Pxl = OramReadPathEviction::P(b.leaf_id, level); 
             Bucket bucket = this->storage->ReadBucket(Pxl);
             int counter = bucket.getBlocks().size();
             for(auto b_block:bucket.getBlocks()){
@@ -177,7 +177,7 @@ OramReadPathEviction::OramReadPathEviction(UntrustedStorageInterface* storage, R
             bucket.addBlock(b);
             bid_evicted.push_back(b.index);
             this->storage->WriteBucket(Pxl, bucket);
-            break; //放入成功后跳出循环           
+            break;            
         }
     }
     if(init_blocks.size()>bid_evicted.size())
@@ -204,7 +204,7 @@ OramReadPathEviction::OramReadPathEviction(UntrustedStorageInterface* storage, R
     {
         cout<<"init_blocks size: "<<init_blocks.size()<<endl;
     }
-    //将剩余的block放入stash
+   
     for(auto & b:init_blocks){
         Block b_instash = b;
         stash.push_back(b);
@@ -224,7 +224,7 @@ int* OramReadPathEviction::access(Operation op, int blockIndex, int *newdata) {
         printf("ORAM write with encryption enabled\n");
         });
     if(this->enable_encryption&& op==WRITE){
-        //只执行一次输出打印
+        
         
         // printf("encrypting data before writing\n");
         newdata_ptr = std::unique_ptr<int[]>(new int[Block::BLOCK_SIZE]);
@@ -239,7 +239,7 @@ int* OramReadPathEviction::access(Operation op, int blockIndex, int *newdata) {
         aes_encrypt(plaintext, Block::BLOCK_SIZE * sizeof(int)-16, this->key.get(), iv, ciphertext);
         auto end = std::chrono::high_resolution_clock::now();
         enc_time += std::chrono::duration<double, std::milli>(end - start).count();
-        //复制密文到newdata_ptr
+        
         memcpy(reinterpret_cast<unsigned char*>(newdata_ptr.get())+16, ciphertext, Block::BLOCK_SIZE * sizeof(int)-16);
         delete[] plaintext;
         delete[] ciphertext;
@@ -272,7 +272,7 @@ int* OramReadPathEviction::access(Operation op, int blockIndex, int *newdata) {
 
 
     if (op == Operation::WRITE) {
-        //进行加密处理
+        
         int* data_tp=new int[Block::BLOCK_SIZE];
         if(this->enable_encryption){
             memcpy(data_tp,newdata_ptr.get(),Block::BLOCK_SIZE*sizeof(int));
@@ -306,9 +306,9 @@ int* OramReadPathEviction::access(Operation op, int blockIndex, int *newdata) {
     if(this->enable_encryption)
     {
         int plainblock[Block::BLOCK_SIZE];
-        //记录加密时间
+        
         auto start = std::chrono::high_resolution_clock::now();
-        for(auto & n_block:stash)  //将stash中的所有block全部重加密一遍
+        for(auto & n_block:stash)  
         {
             block_decrypt(n_block.data.get(), this->key.get(), plainblock);
             block_encrypt(plainblock, this->key.get(), n_block.data.get());
@@ -316,7 +316,7 @@ int* OramReadPathEviction::access(Operation op, int blockIndex, int *newdata) {
         auto end = std::chrono::high_resolution_clock::now();
         enc_time += std::chrono::duration<double, std::milli>(end - start).count();
     }
-    // for(auto & n_block:stash)  //将stash中的所有block全部重加密一遍
+    // for(auto & n_block:stash)  
     // {
 
     // }

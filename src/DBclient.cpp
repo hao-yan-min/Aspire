@@ -21,8 +21,7 @@ uint64_t DBClient::setup(){
         cout<<"Setup begin"<<endl;
         cout<<"Map keyword to buckets"<<endl;
     }
-    //TODO:直接计算最大桶大小
-    // 将不需要的关键字添加到本地，等到reconstruct时再处理
+   
 
 
     vector<set<pair<string,uint64_t>>> Keywords_and_hash_func_in_bucket(this->bucket_number); //recode each keyword of the bucket
@@ -614,10 +613,10 @@ vector<string> DBClient::query_recovery_PIRANA(stringstream& query_results){
             std::string seg_bin = bits.to_string().substr(32 - plain_prime_len, plain_prime_len);
             binary_str += seg_bin;
         }
-        // 如果有补零，可能需要去掉
+       
         binary_str = binary_str.substr(0, this->encrypted_kv_bits_number);
 
-        // 每8位转为char
+       
         for (size_t i = 0; i + 8 <= binary_str.size(); i += 8) {
             std::string byte_str = binary_str.substr(i, 8);
             char byte = static_cast<char>(std::stoi(byte_str, nullptr, 2));

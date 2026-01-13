@@ -21,7 +21,7 @@ def run_complie(TEXP,TEXPRIGHT,TCONV,TGSW,QPBITS,PVALUE,QNUMFIRST,QNUMREST,OUTN,
     for cmd in cmds:
         last_res = subprocess.run(cmd, capture_output=True, text=True)
         if last_res.returncode != 0:
-            # 发生错误时立即返回包含 stdout/stderr 的结果
+            # Return result immediately with stdout/stderr if an error occurs
             return last_res
     return last_res
 

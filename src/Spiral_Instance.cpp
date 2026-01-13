@@ -33,10 +33,10 @@ Spiral_server::Spiral_server(vector<string> Content){
             exit(-1);
         }
     }
-    this->item_size = item_size;  //database中每个item的大小，单位bytes
-    int datasize=Content.size()*item_size;  //database中所有item的大小，单位bytes
+    this->item_size = item_size;  
+    int datasize=Content.size()*item_size;  
     int p_mod=log2(p_db);
-    int element_byte_length=n0*n0*poly_len*p_mod/8;  //spiral pir中每个元素的大小，单位bytes
+    int element_byte_length=n0*n0*poly_len*p_mod/8;  
     //cout<<"Each element size in Spiral_server constructor: "<<element_byte_length<<" bytes."<<endl;
     //cout<<"Database size in Spiral_server constructor: "<<datasize<<" bytes."<<endl;
     size_t num_dim0 = 1 << Spiral_server::dim0; //16
@@ -58,7 +58,7 @@ Spiral_server::Spiral_server(vector<string> Content){
     string tmp;
     tmp.resize(element_byte_length,'a');
     int num_per_row=element_byte_length/item_size;
-    // int item_per_row=num_per_row*item_size;  //每一行的有效元素个数
+    // int item_per_row=num_per_row*item_size; 
     for(int i=0;i<Content.size();i++){
         int offset = i % num_per_row;
         tmp.replace(offset*item_size,item_size,Content[i]);
@@ -80,7 +80,7 @@ Spiral_server::Spiral_server(vector<string> Content){
     while(db_padded.size()<total_n){
         db_padded.push_back(tmp);
     }
-    //FIXME: 直接使用Content会有问题吗？
+    
     this->Content =Content;
     // this->Content = db_padded;
     this->pir_ptr->set_DB(db_padded);
@@ -90,9 +90,9 @@ Spiral_server::Spiral_server(vector<string> Content){
 string Spiral_server::response(string query){
     size_t index = stoi(query);
     string res;
-    //TODO:完成query函数，返回idx处的字符串
+    
     int p_mod=log2(p_db);
-    int element_byte_length=n0*n0*poly_len*p_mod/8;  //spiral pir中每个元素的大小，单位bytes
+    int element_byte_length=n0*n0*poly_len*p_mod/8;  
     int num_per_row=element_byte_length/item_size;
     int ii=index/num_per_row;
     int offset=index%num_per_row;

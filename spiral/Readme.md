@@ -1,2 +1,0 @@
-`rm -rf build/ && cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=/home/yhm/vcpkg/scripts/buildsystems/vcpkg.cmake && cmake --build build -j4 &&cp build/spiral ./spiral && ./spiral 6 8 900 a`
-`rm -rf build/ && cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=/home/yhm/vcpkg/scripts/buildsystems/vcpkg.cmake && cmake --build build -j4 -- PARAMSET=PARAMS_DYNAMIC TEXP=2 TEXPRIGHT=56 TCONV=4 TGSW=4 QPBITS=14 PVALUE=4 QNUMFIRST=1 QNUMREST=0 OUTN=2 ADDTL_CXX_FLAGS= && cp build/spiral ./spiral && ./spiral 4 4  100 a`

@@ -22,11 +22,10 @@ public:
 class oram_server_wrapper {
 public:
     vector<string> Content;
-    int block_size;  //代表元素的大小
+    int block_size;  //element size
     int element_size;
     oram_server_wrapper(vector<string> Content);
     ~oram_server_wrapper(){};
     std::unique_ptr<OramReadPathEviction> oram;
     string response(string query);
 };
-//TODO: 完善这些类

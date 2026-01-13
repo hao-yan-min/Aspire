@@ -23,7 +23,7 @@ public:
     int num_leaves;
     int num_blocks;
     int num_buckets;
-    std::unique_ptr<unsigned char[]> key;  //智能指针
+    std::unique_ptr<unsigned char[]> key;  
     int *position_map; //array
     vector<Block> stash;
 

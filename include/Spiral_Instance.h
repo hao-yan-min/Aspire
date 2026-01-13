@@ -1,7 +1,7 @@
 #pragma once
 #include"spiral.h"
 #include <memory>
-//本文件目的是包装spiral pir的接口，使其可以被DBclient调用
+
 class Spiral_client{
     public:
     uint64_t index;
@@ -21,6 +21,6 @@ class Spiral_server{
     std::unique_ptr<PIR::spiral_PIR> pir_ptr;
     static int dim0;
     static int further_dims;
-    Spiral_server(vector<string> Content);  //构造函数，传入数据库内容
+    Spiral_server(vector<string> Content);  
     string response(string query);
 };

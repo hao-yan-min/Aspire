@@ -158,7 +158,7 @@ void DBServer::reconstruct_bucket_content(vector<string> encrypted_bucket_conten
     }
     else if (this->PIRType == "SpiralPIR"){
         // Spiral_server spiral_server(encrypted_bucket_content);
-        //Warning: 该功能可能会报错
+       
         auto ptr= std::make_unique<Spiral_server>(encrypted_bucket_content);
         this->Spiral_servers_uptr[this->reconstruct_time%this->bucket_number] = std::move(ptr);
     }

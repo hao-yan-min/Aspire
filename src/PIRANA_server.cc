@@ -208,7 +208,8 @@ void PIRANA_Server::reconstruct(vector<string> bucket_content, uint64_t bucket_i
          "Bucket ID out of range!");
   
   
-  if(this->keep_encrypted_DB == true) {  //FIXME: PIRANA的BUCKET数量为8192，为了保障重建的数据量和bucket=512,我们一次性更新16个bucket，在正常使用的场景中，只需要更新一个bucket就行了
+  if(this->keep_encrypted_DB == true) { //PIRANA has 8192 buckets. To ensure the reconstructed data volume corresponds to bucket=512, 
+                                        //we update 16 buckets at once. In normal usage scenarios, updating just one bucket is sufficient.
     #ifdef TEST_FOR_DEBUG
     int bucket_num=std::stoi(bucket_content[0]);
     int start_index=1;

@@ -33,7 +33,7 @@ extern long long int commu_cost;
 // int main()
 // {
 //     printf("hello world\n");
-//     int element_length=273; //每个元素273byte
+//     int element_length=273; 
 //     int element_num=24897;
 //     vector<string> database;
 //     for(int i=0;i<element_num;i++)
@@ -72,12 +72,12 @@ TEST_CASE("test oram")
 {
     // Block::BLOCK_SIZE=16;
     int bucket_size=4;
-    int payload=256; //每个元素256byte
-    Block::BLOCK_SIZE=(payload+AES_BLOCK_SIZE)/sizeof(int); //每个block存储256byte数据，加上iv的16byte
+    int payload=256; 
+    Block::BLOCK_SIZE=(payload+AES_BLOCK_SIZE)/sizeof(int); 
     int num_element=512;
     int res=ceil(log2l(num_element));
     int num_blocks=pow(2,res);
-    //初始化ORAM
+    
     Bucket::setMaxSize(bucket_size);	//set the bucket size
     UntrustedStorageInterface* storage = new ServerStorage();
     RandForOramInterface* random = new RandomForOram();
@@ -89,7 +89,7 @@ TEST_CASE("test oram")
     {
         data_ptr[i]=i+1;
     }
-    //写入数据
+    
     for(int i=0;i<num_element;i++)
     {
         int* newdata = new int[Block::BLOCK_SIZE-4];
@@ -97,7 +97,7 @@ TEST_CASE("test oram")
         oram->access(OramInterface::WRITE, i, newdata);
         delete[] newdata;
     }
-    //读取数据并验证
+    
     for(int i=0;i<num_element;i++)
     {
         int* res_data = oram->access(OramInterface::READ, i, nullptr);
@@ -118,13 +118,13 @@ std::ofstream outfile("oram_s_test_results5.txt",std::ios::app);
 extern double enc_time;
 void test_ORAM_S(int key_size,int value_size,int num_elements,int num_queries)
 {
-    int k_length=1<<key_size; //key的长度
-    int v_length=1<<value_size; //value的长度
-    int n_elements=1<<num_elements; //元素个数
+    int k_length=1<<key_size; 
+    int v_length=1<<value_size; 
+    int n_elements=1<<num_elements; 
     cout<<"Testing ORAM with "<<n_elements<<" elements, key size 2^"<<key_size<<" bytes, value size 2^"<<value_size<<" bytes."<<endl;
     outfile<<"Testing ORAM with "<<n_elements<<" elements, key size 2^"<<key_size<<" bytes, value size 2^"<<value_size<<" bytes."<<endl;
     vector<string> database;
-    int element_length=k_length+v_length; //每个元素的长度
+    int element_length=k_length+v_length; 
     cout<<"Each element size: "<<element_length<<" bytes."<<endl;
     for(int i=0;i<n_elements;i++)
     {
@@ -204,7 +204,7 @@ TEST_CASE("Test ORAM S","[oram_wrapper]")
 }
 TEST_CASE("Test oram_wrapper","[oram_wrapper]")
 {
-    int element_length=273; //每个元素273byte
+    int element_length=273; 
     int element_num=25130;
     vector<string> database;
     for(int i=0;i<element_num;i++)
@@ -297,7 +297,7 @@ TEST_CASE("Spiral PIR basic functionality test", "[spiral_pir]") {
     vector<string> database;
     for(size_t i=0;i<total_n;i++)
     {
-        //生成随机的长度为2048byte的字符串
+       
         string item(2048,'b');
         random_device rd;
         mt19937_64 gen2(rd()); // NOT SECURE
@@ -332,7 +332,7 @@ TEST_CASE("Spiral PIR basic functionality test", "[spiral_pir]") {
     start_stage = chrono::high_resolution_clock::now();
     start = chrono::high_resolution_clock::now();
     start_timing();
-    //随机生成查询index；
+    
     // for(int i=0;i<15;i++)
     // {
     //     int query_index = rand() % database.size();
@@ -397,7 +397,7 @@ TEST_CASE("Spiral PIR basic functionality test", "[spiral_pir]") {
     }
     auto elapsed = timer.elapsed();
     cout<<"Total query time over "<<test_size<<" queries: "<<elapsed <<" ms"<<endl;
-    //以16进制打印
+    
     // for(size_t i=0;i<res.size();i++)
     // {
     //     printf("%02x ",(unsigned char)res[i]);
