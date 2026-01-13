@@ -82,19 +82,19 @@ The project can be built using the following command.
 
 ​	Then run the benchmark. The command usage is as follows:
 
-```bash
-# Usage syntax:
-# ./build/main <bucket_num> <query_num> <log2(N)> <key_bits> <val_bits> <dim0> <dim1> <threads> <pir_type>
-# Test with PathORAM-based Aspire
-# log2(N)=18, Val=2048 bits, Threads=32
-./build/main 512 341 18 32 2048 6 2 32 ORAM
+  ```bash
+  # Usage syntax:
+  # ./build/main <bucket_num> <query_num> <log2(N)> <key_bits> <val_bits> <dim0> <dim1> <threads> <pir_type>
+  # Test with PathORAM-based Aspire
+  # log2(N)=18, Val=2048 bits, Threads=32
+  ./build/main 512 341 18 32 2048 6 2 32 ORAM
 
-# Test with PIRANA-based Aspire
-./build/main 512 341 18 32 2048 6 2 32 PIRANA
+  # Test with PIRANA-based Aspire
+  ./build/main 512 341 18 32 2048 6 2 32 PIRANA
 
-# Test with Spiral-based Aspire
-./build/main 512 341 18 32 2048 6 2 32 SpiralPIR
-```
+  # Test with Spiral-based Aspire
+  ./build/main 512 341 18 32 2048 6 2 32 SpiralPIR
+  ```
 
 * fully test
 
