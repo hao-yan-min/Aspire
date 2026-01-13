@@ -33,7 +33,7 @@ The project can be built using the following command.
 
   ```bash
   git clone https://github.com/microsoft/SEAL.git
-  cd ./SEAL && cmake -S . -B build -DCMAKE_INSTALL_PREFIX=~/local && 		cmake --build build &&cmake --install build
+  cd ./SEAL && cmake -S . -B build -DCMAKE_INSTALL_PREFIX=~/local && cmake --build build && cmake --install build
   ```
 
 * Install HEXL library
@@ -41,13 +41,7 @@ The project can be built using the following command.
   ```bash
   git clone https://github.com/IntelLabs/hexl.git
   cd ./hexl
-  cmake -S . -B build -DCMAKE_INSTALL_PREFIX=~/local && cmake --build 	build &&cmake --install build
-  ```
-
-* Install Sux
-
-  ```bash
-  git clone https://github.com/vigna/sux.git
+  cmake -S . -B build -DCMAKE_INSTALL_PREFIX=~/local && cmake --build build && cmake --install build
   ```
 
 * Install cryptopp
@@ -74,7 +68,7 @@ The project can be built using the following command.
 
   ```bash
   git clone https://github.com/microsoft/Kuku.git
-  cd ./KUKU
+  cd ./KuKu
   cmake -S . -B build -DCMAKE_INSTALL_PREFIX=~/local && cmake --build 	build &&cmake --install build
   ```
 
@@ -84,12 +78,23 @@ The project can be built using the following command.
 
   ```bash
   python3 complie.py
-  ./build/main 512 341 18 32 2048 6 2 32 ORAM #test with PathORAM-based Aspire
-  ./build/main 512 341 18 32 2048 6 2 32 PIRANA #test with PIRANA-based Aspire
-  ./build/main 512 341 18 32 2048 6 2 32 SpiralPIR #test with Spiral-based Aspire
   ```
 
-​	The `complie.py` performs the actual Aspire build using CMake automatically.
+​	Then run the benchmark. The command usage is as follows:
+
+```bash
+# Usage syntax:
+# ./build/main <bucket_num> <query_num> <log2(N)> <key_bits> <val_bits> <dim0> <dim1> <threads> <pir_type>
+# Test with PathORAM-based Aspire
+# log2(N)=18, Val=2048 bits, Threads=32
+./build/main 512 341 18 32 2048 6 2 32 ORAM
+
+# Test with PIRANA-based Aspire
+./build/main 512 341 18 32 2048 6 2 32 PIRANA
+
+# Test with Spiral-based Aspire
+./build/main 512 341 18 32 2048 6 2 32 SpiralPIR
+```
 
 * fully test
 
@@ -103,6 +108,6 @@ The project can be built using the following command.
 
   |  Option  |                         Description                          |   Default    |
   | :------: | :----------------------------------------------------------: | :----------: |
-  |  --type  | The PIR/ORAM scheme used by Aspire; options include *ORAM*, *SpiralPIR*, and *PIRANA* |     ORAM     |
+  |   type   | The PIR/ORAM scheme used by Aspire; options include *ORAM*, *SpiralPIR*, and *PIRANA* |     ORAM     |
   | threads  |             Number of threads used for testing.              |      16      |
   | testcase | Test case to run: 1 for different element numbers, 2 for different value length, 3 for different bucket numbers, 0 for all tests. | 0 (test all) |
