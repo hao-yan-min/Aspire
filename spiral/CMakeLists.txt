@@ -39,7 +39,7 @@ target_include_directories(spiral PUBLIC include)
 # -DCMAKE_TOOLCHAIN_FILE=/home/ubuntu/vcpkg/scripts/buildsystems/vcpkg.cmake
 
 find_package(HEXL CONFIG REQUIRED PATHS "/home/$ENV{USER}/local" NO_DEFAULT_PATH)
-# 打印HEXL的位置信息
+
 message(STATUS "HEXL found at: ${HEXL_DIR}")
 target_link_libraries(spiral PUBLIC HEXL::hexl OpenMP::OpenMP_CXX)
 #target_link_libraries(spiral PUBLIC HEXL::hexl)

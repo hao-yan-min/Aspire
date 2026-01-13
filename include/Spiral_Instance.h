@@ -17,7 +17,7 @@ class Spiral_server{
     vector<string> Content;
     int item_size;
     int data_num;
-    //智能指针
+    
     std::unique_ptr<PIR::spiral_PIR> pir_ptr;
     static int dim0;
     static int further_dims;

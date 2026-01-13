@@ -286,7 +286,7 @@ namespace PIR{
             void setup_H_F_for_n2_eq_2();
             void setup_constants();
             void encode_db(vector<string>& raw_db);
-            void query(size_t idx,string & res);  //TODO:完成query函数，返回idx处的字符串
+            void query(size_t idx,string & res);  
             void generate_gadgets();
             void generate_setup(
                 uint64_t **g_Ws_fft,          // use this setup data

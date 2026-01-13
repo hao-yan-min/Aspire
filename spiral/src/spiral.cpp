@@ -1396,7 +1396,6 @@ void PIR::spiral_PIR::set_DB(const vector<string> &database)
 {
     size_t dim0 = 1 << num_expansions;
     size_t num_per = total_n / dim0;
-    //判断database大小是否符合要求
     if(database.size()!=total_n)
     {
         throw invalid_argument("Database size not equal to total_n in set_DB.\n");
@@ -1959,7 +1958,6 @@ PIR::spiral_PIR::spiral_PIR(size_t ne, size_t fd)
 //     vector<string> database;
 //     for(size_t i=0;i<total_n;i++)
 //     {
-//         //生成随机的长度为8192byte的字符串
 //         string item(8192,'a');
 //         random_device rd;
 //         mt19937_64 gen2(rd()); // NOT SECURE
@@ -3761,7 +3759,7 @@ void PIR::spiral_PIR::process_crtd_query(
 void PIR::spiral_PIR::query(size_t idx_target,string & res) {
 
     double pt_mod = log2((double)p_db);
-    size_t pt_elem_size = (size_t)((2.0 * 2 * poly_len * (double) pt_mod) / 8.0);//PIR每一个元素的大小
+    size_t pt_elem_size = (size_t)((2.0 * 2 * poly_len * (double) pt_mod) / 8.0);
 
     // cout<<"Plaintext element size (bytes): "<<pt_elem_size<<endl;
     // cout<<"item_Size "<<this->item_size<<endl;

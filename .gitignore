@@ -8,7 +8,6 @@ output/
 CMakeCache.txt
 .venv
 *.log
-Aspire画图
-Aspire画图.rar
+
 .ipynb
 experiment_results/
