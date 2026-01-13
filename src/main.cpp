@@ -1280,8 +1280,8 @@ int main_0(int bn,int qn,int nk,
             time_end_local = chrono::high_resolution_clock::now();
             setup_time_S = chrono::duration_cast<chrono::microseconds>(time_end_local - time_start_local).count();
 
-            cout << "Storage cost (Server, Database): " << server.PIR->get_storage_size() << " bytes" << endl;
-            logs << "Storage cost (Server, Database): " << server.PIR->get_storage_size() << " bytes" << endl;
+            // cout << "Storage cost (Server, Database): " << server.PIR->get_storage_size() << " bytes" << endl;
+            // logs << "Storage cost (Server, Database): " << server.PIR->get_storage_size() << " bytes" << endl;
             logs << "Total setup time: " << setup_duration << " ms" << endl;
             for (uint64_t i=0;i<reconstruction_times;i++){
                 cout<< "Reconstructing bucket " << i+1 << " of " << reconstruction_times << endl;

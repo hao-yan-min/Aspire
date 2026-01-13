@@ -95,7 +95,7 @@ The project can be built using the following command.
   # Test with Spiral-based Aspire
   ./build/main 512 341 18 32 2048 6 2 32 SpiralPIR
   ```
-
+  *Note:* dim0 and dim1 are parameters for the Spiral scheme; please do not modify them arbitrarily.
 * fully test
 
   To run more comprehensive tests, you can execute:
