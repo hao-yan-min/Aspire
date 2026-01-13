@@ -88,17 +88,18 @@ OramReadPathEviction::OramReadPathEviction(UntrustedStorageInterface* storage, R
 
     //将数据放入block中，并进行加密
     vector<Block> init_blocks;
-    std::unique_ptr<int[]> newdata_ptr;
-    newdata_ptr = std::unique_ptr<int[]>(new int[Block::BLOCK_SIZE]);
+    // std::unique_ptr<int[]> newdata_ptr;
+    // newdata_ptr = std::unique_ptr<int[]>(new int[Block::BLOCK_SIZE]);
     unsigned char* ciphertext = new unsigned char[Block::BLOCK_SIZE * sizeof(int)-16];
     unsigned char* plaintext = new unsigned char[Block::BLOCK_SIZE * sizeof(int)-16];
     for(int i=0;i<init_data.size();i++){
-        memset(newdata_ptr.get(),0,Block::BLOCK_SIZE*sizeof(int));
+        int* raw_data_ptr = new int[Block::BLOCK_SIZE]; 
+        memset(raw_data_ptr,0,Block::BLOCK_SIZE*sizeof(int));
         memset(ciphertext,0,Block::BLOCK_SIZE * sizeof(int)-16);
         memset(plaintext,0,Block::BLOCK_SIZE * sizeof(int)-16);
         unsigned char iv[AES_KEY_LENGTH];
         RAND_bytes(iv, AES_KEY_LENGTH);
-        memcpy(reinterpret_cast<unsigned char*>(newdata_ptr.get()),iv,AES_KEY_LENGTH);
+        memcpy(reinterpret_cast<unsigned char*>(raw_data_ptr),iv,AES_KEY_LENGTH);
         
         //复制数据到plaintext
         memcpy(plaintext, reinterpret_cast<unsigned char*>(init_data[i].data()), Block::BLOCK_SIZE * sizeof(int)-16);
@@ -108,8 +109,9 @@ OramReadPathEviction::OramReadPathEviction(UntrustedStorageInterface* storage, R
         auto end = std::chrono::high_resolution_clock::now();
         enc_time += std::chrono::duration<double, std::milli>(end - start).count();
          //复制密文到newdata_ptr
-        memcpy(reinterpret_cast<unsigned char*>(newdata_ptr.get())+16, ciphertext, Block::BLOCK_SIZE * sizeof(int)-16);
-        Block newBlock = Block(position_map[i], i, newdata_ptr.get());
+        memcpy(reinterpret_cast<unsigned char*>(raw_data_ptr)+16, ciphertext, Block::BLOCK_SIZE * sizeof(int)-16);
+        Block newBlock = Block(position_map[i], i, raw_data_ptr);
+        delete[] raw_data_ptr;
         init_blocks.push_back(newBlock);
         
     }

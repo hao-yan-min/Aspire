@@ -18,7 +18,7 @@ bool ternary = false;
 bool random_data = false;
 bool show_diff = false;
 bool output_err = false;
-std::ofstream logs("./data_local/Spiral_ORAM/update_all_value.log", std::ios::app);
+std::ofstream logs("./data_local/update_all_value.log", std::ios::app);
 static size_t total_offline_size_b = 0;
 
 void generate_random_pt(MatPoly &M) {
@@ -27,7 +27,7 @@ void generate_random_pt(MatPoly &M) {
     for (size_t i = 0; i < M.rows * M.cols * poly_len; i++) {
         M.data[i] = rand() % (p_db);
     }
-    cout<<"item size: "<<M.rows * M.cols * poly_len<<endl;
+    //cout<<"item size: "<<M.rows * M.cols * poly_len<<endl;
 }
 
 void get_gadget_1(MatPoly &G) { // n0 x m1
@@ -203,7 +203,7 @@ void PIR::spiral_PIR::setup_constants()
     from_ntt(HF_plain, HF);
     reduce_mod(HF_plain, p_i);
     bool ok = is_eq(HF_plain, ZO);
-    cout << "HF == zero? " << ok << endl; 
+    //cout << "HF == zero? " << ok << endl; 
 
     if (!ok) {
         cout << "HF = ";
@@ -1457,7 +1457,7 @@ void PIR::spiral_PIR::set_DB(const vector<string> &database)
     }
     
     size_t num_bytes_B = sizeof(uint64_t) * dim0 * num_per * n0 * n2 * poly_len;//2 * poly_len;
-    cout << "num_bytes_B: " << num_bytes_B << endl;
+    //cout << "num_bytes_B: " << num_bytes_B << endl;
     B = (uint64_t *)aligned_alloc(64, num_bytes_B);
     memset(B, 0, num_bytes_B);
 
@@ -1471,7 +1471,7 @@ void PIR::spiral_PIR::set_DB(const vector<string> &database)
     if (false) {
         // TODO
     } else {
-        cout << "starting generation of db" << endl;
+        //cout << "starting generation of db" << endl;
         MatPoly H_nttd = to_ntt(H_mp);
         uint64_t *H_encd = H_nttd.data;
         MatPoly pt_tmp(n0, n0, false);
@@ -1508,7 +1508,7 @@ void PIR::spiral_PIR::set_DB(const vector<string> &database)
                 to_ntt(pts_encd, pt_encd_raw);
 
                 if (i == IDX_TARGET) {
-                    cout<<"setting target idx: "<<IDX_TARGET<<endl;
+                    //cout<<"setting target idx: "<<IDX_TARGET<<endl;
                     
                     cop(pt_encd_correct, pts_encd);
                     cop(pt_real, pt_tmp);
@@ -1546,7 +1546,7 @@ void PIR::spiral_PIR::set_DB(const vector<string> &database)
 
     
 
-    cout << "done loading/generating db." << endl;
+    //cout << "done loading/generating db." << endl;
 }
 
 void PIR::spiral_PIR::load_db()
@@ -1620,7 +1620,7 @@ void PIR::spiral_PIR::load_db()
     if (false) {
         // TODO
     } else {
-        cout << "starting generation of db" << endl;
+        //cout << "starting generation of db" << endl;
         MatPoly H_nttd = to_ntt(H_mp);
         uint64_t *H_encd = H_nttd.data;
         MatPoly pt_tmp(n0, n0, false);
@@ -1689,7 +1689,7 @@ void PIR::spiral_PIR::load_db()
 
     
 
-    cout << "done loading/generating db." << endl;
+    //cout << "done loading/generating db." << endl;
 }
 void do_test();
 void do_server();

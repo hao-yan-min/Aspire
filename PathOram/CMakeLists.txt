@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.12)
 # Enable C++11
 set(CMAKE_CXX_STANDARD 11)
 if(NOT CMAKE_BUILD_TYPE)
@@ -17,7 +17,7 @@ file(GLOB ORAM_FILES
  "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
  "${CMAKE_CURRENT_SOURCE_DIR}/utils/*.cpp")
 add_library(ORAM ${ORAM_FILES})
-target_include_directories(ORAM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(ORAM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${OPENSSL_INCLUDE_DIR})
 target_link_libraries(ORAM ${OPENSSL_LIBRARIES} OpenMP::OpenMP_CXX)
 # include(CTest)
 # include(Catch)

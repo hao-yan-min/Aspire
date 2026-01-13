@@ -23,7 +23,7 @@ void noise(MatPoly &E) {
 void keygen(MatPoly &S, MatPoly &Sp, MatPoly &sr, size_t n_val) {
     size_t rs = S.rows; // n0
     size_t cs = S.cols; // n1
-    cout<<"key generate"<<endl;
+    //cout<<"key generate"<<endl;
     for (size_t m = 0; m < poly_len; m++) {
         uint64_t val = ternary ? ((rand() % 3) - 1) : sample_u64();
         sr.data[m] = val % Q_i;

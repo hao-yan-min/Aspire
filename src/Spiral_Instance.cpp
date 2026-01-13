@@ -37,12 +37,12 @@ Spiral_server::Spiral_server(vector<string> Content){
     int datasize=Content.size()*item_size;  //database中所有item的大小，单位bytes
     int p_mod=log2(p_db);
     int element_byte_length=n0*n0*poly_len*p_mod/8;  //spiral pir中每个元素的大小，单位bytes
-    cout<<"Each element size in Spiral_server constructor: "<<element_byte_length<<" bytes."<<endl;
-    cout<<"Database size in Spiral_server constructor: "<<datasize<<" bytes."<<endl;
+    //cout<<"Each element size in Spiral_server constructor: "<<element_byte_length<<" bytes."<<endl;
+    //cout<<"Database size in Spiral_server constructor: "<<datasize<<" bytes."<<endl;
     size_t num_dim0 = 1 << Spiral_server::dim0; //16
     size_t num_further_dims = 1 << Spiral_server::further_dims; //8
     size_t total_n = num_dim0 * num_further_dims; //128
-    cout<<"Total n in Spiral_server constructor: "<<total_n<<endl;
+    //cout<<"Total n in Spiral_server constructor: "<<total_n<<endl;
     if(total_n*element_byte_length < datasize){
         cout<<"Error: Database size exceeds the maximum capacity of Spiral PIR with current parameters!"<<endl;
         exit(-1);

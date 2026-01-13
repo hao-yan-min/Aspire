@@ -248,8 +248,9 @@ int main(int argc, char** argv)
         kbl,vbl;
     if(argc<10)
     {
+        omp_set_num_threads(16);
         cout<<"Usage: "<<argv[0]<<" <bucket_number> <query_number> <log2(number_of_keywords/values)> <keyword_bit_length> <value_bit_length>"<<endl;
-        main_0(8192,5461,20,32,2048,"ORAM");//512,300,nk,32,2048
+        main_0(512,341,23,32,2048,"ORAM");//512,300,nk,32,2048
         Spiral_server::dim0=6;
         Spiral_server::further_dims=2;
         return 0;
@@ -507,7 +508,7 @@ int main_0(int bn,int qn,int nk,
         time_client.reset();
         double search_local_time=0;
         timer.reset();
-        int test_queries = 100;
+        int test_queries = 1;
         for(int num_test=0;num_test<test_queries;num_test++)
         {
             time_client.reset();
@@ -521,36 +522,45 @@ int main_0(int bn,int qn,int nk,
         }
         double query_time = timer.elapsed();
         query_time/=(double)test_queries;
-        cout<<"Setup time: "<<setup_time<<" ms"<<endl;
-        logs<<"Setup time: "<<setup_time<<" ms"<<endl;
-        cout<<"Query time for "<<query_number<<" queries: "<<query_time/test_queries<<" ms"<<endl;
-        logs<<"Query time for "<<query_number<<" queries: "<<query_time<<" ms"<<endl;
         double query_cost = commu_cost/(1024.0*1024.0*(double)test_queries);//MB
-        cout<<"Setup communication cost: "<<setup_cost<<" MB"<<endl;
-        logs<<"Setup communication cost: "<<setup_cost<<" MB"<<endl;
-        cout<<"Query communication cost for "<<query_number<<" queries: "<<query_cost<<" MB"<<endl;
-        logs<<"Query communication cost for "<<query_number<<" queries: "<<query_cost<<" MB"<<endl;
-        cout<<"Average Client local search time: "<<search_local_time/(double)test_queries<<" ms"<<endl;
-        logs<<"Average Client local search time: "<<search_local_time/(double)test_queries<<" ms"<<endl;
+        if(server.PIRType=="ORAM")
+        {
+            cout<<"Setup time: "<<setup_time<<" ms"<<endl;
+            logs<<"Setup time: "<<setup_time<<" ms"<<endl;
+            cout<<"Query time for "<<query_number<<" queries: "<<query_time<<" ms"<<endl;
+            logs<<"Query time for "<<query_number<<" queries: "<<query_time<<" ms"<<endl;
+            
+            cout<<"Setup communication cost: "<<setup_cost<<" MB"<<endl;
+            logs<<"Setup communication cost: "<<setup_cost<<" MB"<<endl;
+            cout<<"Query communication cost for "<<query_number<<" queries: "<<query_cost<<" MB"<<endl;
+            logs<<"Query communication cost for "<<query_number<<" queries: "<<query_cost<<" MB"<<endl;
+            // cout<<"Average Client local search time: "<<search_local_time/(double)test_queries<<" ms"<<endl;
+            // logs<<"Average Client local search time: "<<search_local_time/(double)test_queries<<" ms"<<endl;
+        }
+        vector<double> test_results;
         if(server.PIRType=="SpiralPIR")
         {
-            vector<double> test_results;
-            server.Spiral_servers_uptr[0]->pir_ptr->print_summary(test_results);
-            logs<<"[Spiral PIR parameters] "<<endl;
-            logs<<"setup_time(ms), setup_communications(MB),query_time(ms),query_communications(MB)"<<endl;
             
+            server.Spiral_servers_uptr[0]->pir_ptr->print_summary(test_results);
+            cout << fixed << setprecision(4);
+            logs<<"[Spiral PIR parameters] "<<endl;
+            cout<<"[Spiral PIR parameters] "<<endl;
+            logs<<"setup_time(ms), setup_communications(MB),query_time(ms),query_communications(MB)"<<endl;
+            cout<<"setup_time(ms), setup_communications(MB),query_time(ms),query_communications(MB)"<<endl;
             double raw_data_size=server.Encrypted_db[0].size()*sz*bucket_number;
-            test_results[1]/=(double)test_queries;
-            test_results[1]+=raw_data_size;
-            test_results[1]/=(1024.0*1024.0);
+            double setup_communication_cost=test_results[1];
+            setup_communication_cost/=(double)test_queries;
+            setup_communication_cost+=raw_data_size;
+            setup_communication_cost/=(1024.0*1024.0);
             
             double query_comm_cost=test_results[3];
             query_comm_cost*=(double)bucket_number;
             query_comm_cost=query_comm_cost/1024.0/1024.0;
             test_results[3]=static_cast<double>(test_results[3])*((double)bucket_number)/1024.0/1024.0;
-           
-            logs<<"["<<(test_results[0]/double(test_queries)/1000.0)+setup_time<<","<<test_results[1]<<","<<test_results[2]/double(test_queries)/1000.0<<","<<query_comm_cost<<"]"<<endl<<endl;
+            cout<<"["<<(test_results[0]/double(test_queries)/1000.0)+setup_time<<","<<setup_communication_cost<<","<<query_time<<","<<query_comm_cost<<"]"<<endl<<endl;
+            logs<<"["<<(test_results[0]/double(test_queries)/1000.0)+setup_time<<","<<setup_communication_cost<<","<<query_time<<","<<query_comm_cost<<"]"<<endl<<endl;
             logs<<"client search time(ms): "<<search_local_time/(double)test_queries+test_results[4]/double(test_queries)/1000.0<<endl;
+            cout<<"client search time(ms): "<<search_local_time/(double)test_queries+test_results[4]/double(test_queries)/1000.0<<endl;
         }
         else if(server.PIRType=="ORAM")
         {
@@ -562,7 +572,7 @@ int main_0(int bn,int qn,int nk,
         cout<<"Ciphertext size in each bucket: "<<sz<<endl;
         logs<<"Ciphertext size in each bucket: "<<sz<<endl;
         logs<<"Client Storage: "<<client.get_storage_size()/(1024.0*1024.0)<<" MB"<<endl;
-        // if(pir_type=="ORAM")
+        if(pir_type=="ORAM")
         {
             logs<<"["<<query_cost<<","<<query_time<<",2"<<"]"<<endl<<endl;
         }
@@ -736,16 +746,33 @@ int main_0(int bn,int qn,int nk,
         commu_cost = commu_cost/5;
         cout << "Reconstruction time: " << reconstruction_time << " ms" << endl;
         logs<<"Reconstruction time: "<<reconstruction_time<<" ms"<<endl;
-        cout<<"Reconstruction communication cost: "<<(double)commu_cost/(1024.0*1024.0)<<" MB"<<endl;
-        logs<<"Reconstruction communication cost: "<<(double)commu_cost/(1024.0*1024.0)<<" MB"<<endl;
+        if(server.PIRType=="ORAM")
+        {
+            cout<<"Reconstruction communication cost: "<<(double)commu_cost/(1024.0*1024.0)<<" MB"<<endl;
+            logs<<"Reconstruction communication cost: "<<(double)commu_cost/(1024.0*1024.0)<<" MB"<<endl;
+        }
+        
         vector<string> keywords_query5 = db.get_multi_random_keyword(query_number);
         vector<string> queries_query5 = client.query_generate_query_FakePIR(keywords_query5);
         vector<string> responses_query5 = server.query_response_FakePIR(queries_query5);
         vector<string> results_query5 = client.query_recovery_FakePIR(responses_query5);
+        vector<double> test_results1;
         if(server.PIRType=="SpiralPIR")
         {
-            vector<double> test_results;
-            server.Spiral_servers_uptr[0]->pir_ptr->print_summary(test_results);
+            
+            server.Spiral_servers_uptr[0]->pir_ptr->print_summary(test_results1);
+            double Reconstruction_comm_cost=test_results1[1]-test_results[1];
+            Reconstruction_comm_cost/=5.0;
+            Reconstruction_comm_cost+=double(server.Encrypted_db[0].size()*(double)sz);
+            Reconstruction_comm_cost/=(1024.0*1024.0);
+            cout << fixed << setprecision(4);
+            cout<<"[Spiral PIR Reconstruction parameters] "<<endl;
+            logs<<"[Spiral PIR Reconstruction parameters] "<<endl;
+            logs<<"reconstruction_communications(MB): "<<Reconstruction_comm_cost<<endl;
+            cout<<"reconstruction_communications(MB): "<<Reconstruction_comm_cost<<endl;
+            cout << "Reconstruction time: " << reconstruction_time << " ms" << endl;
+            logs<<"Reconstruction time: "<<reconstruction_time<<" ms"<<endl;
+        
         }
     // //     for (uint64_t i=0;i<bucket_number/2;i++){
     // //         vector<string> bucket_content = server.get_bucket_content();
@@ -1173,7 +1200,7 @@ int main_0(int bn,int qn,int nk,
         }
     }
     else if (test_case == 6){
-        debug = true;
+        debug = false;
         // uint64_t bucket_number = bn;
         bucket_number = 8192;
         cout<<"Formal Test DB based on PIRANA"<<endl;

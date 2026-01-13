@@ -1,34 +1,108 @@
-### Install SEAL
-
-在主目录下git clone https://github.com/microsoft/SEAL.git
-
-### Install cryptopp
-
-wget https://cryptopp.com/cryptopp870.zip
-
-unzip -a cryptopp890.zip -d cryptopp
-
-cd cryptopp
-
-make static  -j4 
-
-make install PREFIX=./install_x86_64
-
-to test:
-
-./cryptest.exe v
-
-### Install Sux
-
-在主目录下：https://github.com/vigna/sux.git
-
-
-git lfs install
-git lfs pull --include="cryptopp/**"
-
-
-rm -rf build/ && cmake -S . -B build && cmake --build build -j4 && cp ./build/test_pir ./test_pir
+# Aspire: Zero-Leakage Private Key-Value Storage Based on PIR
 
 
 
-rm -rf build/ && cmake -S . -B build && cmake --build build -j4 && cp ./build/main ./main && ./main
+Aspire is a research library and should not be used in production systems.
+
+This repository contains the implement of PIRANA-based Aspire, Spiral-based Aspire and PathORAM-based Aspire proposed in the paper.
+
+## Dependencies
+
+- Microsoft SEAL (version>=4.0.0)
+
+- Microsoft Kuku (version=2.1.0)
+
+- OpenSSL (version >=3.0.2)
+- cryptopp (version=8.7.0)
+- hexl (version=1.2.6)
+- Sux (version=1.0.3)
+
+[Microsoft SEAL](https://github.com/microsoft/SEAL) and [Microsoft Kuku](https://github.com/microsoft/Kuku) can be installed using the instructions outlined in the repository.
+
+## Building the project
+
+The project can be built using the following command.
+
+* before clone code
+
+  ```bash
+  git lfs init
+  ```
+
+* Install Microsoft SEAL
+
+  ```bash
+  git clone https://github.com/microsoft/SEAL.git
+  cd ./SEAL && cmake -S . -B build -DCMAKE_INSTALL_PREFIX=~/local && 		cmake --build build &&cmake --install build
+  ```
+
+* Install HEXL library
+
+  ```bash
+  git clone https://github.com/IntelLabs/hexl.git
+  cd ./hexl
+  cmake -S . -B build -DCMAKE_INSTALL_PREFIX=~/local && cmake --build 	build &&cmake --install build
+  ```
+
+* Install Sux
+
+  ```bash
+  git clone https://github.com/vigna/sux.git
+  ```
+
+* Install cryptopp
+
+  ```bash
+  wget https://cryptopp.com/cryptopp870.zip
+  
+  unzip -a cryptopp890.zip -d cryptopp
+  
+  cd cryptopp
+  
+  make static  -j4 
+  
+  make install PREFIX=./install_x86_64
+  ```
+
+  **to test:**
+
+  ```bash
+  ./cryptest.exe v
+  ```
+
+* Install Microsoft Kuku
+
+  ```bash
+  git clone https://github.com/microsoft/Kuku.git
+  cd ./KUKU
+  cmake -S . -B build -DCMAKE_INSTALL_PREFIX=~/local && cmake --build 	build &&cmake --install build
+  ```
+
+* run
+
+  We can run the Aspire scheme on a database with $2^{18}$ entries and a payload size of 256 bytes using the following command.
+
+  ```bash
+  python3 complie.py
+  ./build/main 512 341 18 32 2048 6 2 32 ORAM #test with PathORAM-based Aspire
+  ./build/main 512 341 18 32 2048 6 2 32 PIRANA #test with PIRANA-based Aspire
+  ./build/main 512 341 18 32 2048 6 2 32 SpiralPIR #test with Spiral-based Aspire
+  ```
+
+​	The `complie.py` performs the actual Aspire build using CMake automatically.
+
+* fully test
+
+  To run more comprehensive tests, you can execute:
+
+  ```bash
+  python3 run.py --type PIRANA --threads 16 --testcase 0
+  ```
+
+  ## Parameters
+
+  |  Option  |                         Description                          |   Default    |
+  | :------: | :----------------------------------------------------------: | :----------: |
+  |  --type  | The PIR/ORAM scheme used by Aspire; options include *ORAM*, *SpiralPIR*, and *PIRANA* |     ORAM     |
+  | threads  |             Number of threads used for testing.              |      16      |
+  | testcase | Test case to run: 1 for different element numbers, 2 for different value length, 3 for different bucket numbers, 0 for all tests. | 0 (test all) |
