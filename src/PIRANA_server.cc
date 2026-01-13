@@ -58,7 +58,7 @@ void PIRANA_Server::batch_encode_db_from_client_to_ntt_db_without_compress() {
       // size_t total_len = binary_str.size();
       // for (size_t pos = 0; pos + plain_prime_len <= total_len; pos += plain_prime_len) {
       //     std::string segment = binary_str.substr(pos, plain_prime_len);
-      //     uint32_t value = std::stoi(segment, nullptr, 2); // 二进制转int
+      //     uint32_t value = std::stoi(segment, nullptr, 2); 
       //     int_segments.push_back(value);
       // }
       // slots.push_back(int_segments);
@@ -83,7 +83,7 @@ void PIRANA_Server::batch_encode_db_from_client_to_ntt_db_without_compress() {
       // size_t total_len = binary_str.size();
       // for (size_t pos = 0; pos + plain_prime_len <= total_len; pos += plain_prime_len) {
       //     std::string segment = binary_str.substr(pos, plain_prime_len);
-      //     uint32_t value = std::stoi(segment, nullptr, 2); // 二进制转int
+      //     uint32_t value = std::stoi(segment, nullptr, 2); 
       //     int_segments.push_back(value);
       // }
       // slots.push_back(int_segments);

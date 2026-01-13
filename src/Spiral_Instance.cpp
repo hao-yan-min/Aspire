@@ -1,6 +1,6 @@
 #include "Spiral_Instance.h"
 
-//修改spiral的数据大小
+
 int Spiral_server::dim0=6;
 int Spiral_server::further_dims=2;
 
@@ -49,7 +49,7 @@ Spiral_server::Spiral_server(vector<string> Content){
     }
     
     this->pir_ptr = std::make_unique<PIR::spiral_PIR>(Spiral_server::dim0,Spiral_server::further_dims);
-    //将数据库填充至2^7*2048bytes
+
     vector<string> db_padded;
     // size_t num_dim0 = 1 << Spiral_server::dim0; //16
     // size_t num_further_dims = 1 << Spiral_server::further_dims; //8
@@ -73,7 +73,7 @@ Spiral_server::Spiral_server(vector<string> Content){
         cout<<"Error: Database size exceeds the maximum capacity of Spiral PIR with current parameters!"<<endl;
         exit(-1);
     }
-    //填充剩余部分
+   
     tmp.clear();
     tmp.resize(element_byte_length,'a');
     this->data_num=db_padded.size();

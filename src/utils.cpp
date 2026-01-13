@@ -474,7 +474,7 @@ void print_parameters(const seal::SEALContext &context)
 
 
 
-// 计算SHA-256哈希值并输出为无符号整数
+
 uint64_t calculateSHA256(uint64_t input) {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256_CTX sha256;
@@ -482,7 +482,7 @@ uint64_t calculateSHA256(uint64_t input) {
     SHA256_Update(&sha256, &input, sizeof(input));
     SHA256_Final(hash, &sha256);
 
-    // 将哈希值转换为无符号整数
+    
     uint64_t hashInt = 0;
     for (int i = 0; i < sizeof(uint64_t) && i < SHA256_DIGEST_LENGTH; i++) {
         hashInt = (hashInt << 8) | hash[i];
@@ -518,10 +518,10 @@ uint64_t hash_to_bucket_keyword(string id, uint64_t count, uint64_t bucket_numbe
     std::string input = toUpper(id) + to_string(count);
     unsigned char hash[SHA256_DIGEST_LENGTH];
 
-    // 计算SHA256哈希值
+
     SHA256((const unsigned char*)input.c_str(), input.length(), hash);
 
-    // 将哈希值转换为无符号整数
+    
     unsigned int hashValue = 0;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         hashValue = (hashValue << 8) + hash[i];

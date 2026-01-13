@@ -64,7 +64,7 @@ int block_encrypt(const int *plainblock, unsigned char *key, int *cipherblock)
     if(plainblock == nullptr || cipherblock == nullptr || key == nullptr)
     {
         printf("Invalid input to block_encrypt\n");
-        return -1; // 输入参数无效
+        return -1; 
     }
     unsigned char iv[AES_KEY_LENGTH];
     RAND_bytes(iv, AES_KEY_LENGTH);
@@ -82,7 +82,7 @@ int block_decrypt(const int *cipherblock, unsigned char *key,  int *plainblock)
     if(plainblock == nullptr || cipherblock == nullptr || key == nullptr)
     {
         printf("Invalid input to block_decrypt\n");
-        return -1; // 输入参数无效
+        return -1;
     }
     unsigned char iv[AES_KEY_LENGTH];
     memcpy(iv, reinterpret_cast<const unsigned char*>(cipherblock), AES_KEY_LENGTH);

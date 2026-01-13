@@ -232,7 +232,7 @@ int* OramReadPathEviction::access(Operation op, int blockIndex, int *newdata) {
         RAND_bytes(iv, AES_KEY_LENGTH);
         memcpy(reinterpret_cast<unsigned char*>(newdata_ptr.get()),iv,AES_KEY_LENGTH);
         unsigned char* plaintext = new unsigned char[Block::BLOCK_SIZE * sizeof(int)-16];
-        //复制数据到plaintext
+        
         memcpy(plaintext, reinterpret_cast<unsigned char*>(newdata), Block::BLOCK_SIZE * sizeof(int)-16);
         unsigned char* ciphertext = new unsigned char[Block::BLOCK_SIZE * sizeof(int)-16];
         auto start = std::chrono::high_resolution_clock::now();

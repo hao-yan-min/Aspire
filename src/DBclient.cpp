@@ -44,7 +44,7 @@ uint64_t DBClient::setup(){
     //recode the number of pairs of each bucket in the Bucket_count
     //get the max bucket size
     this->Bucket_count = vector<uint64_t>(this->bucket_number,0);
-    //TODO: 修改最大桶逻辑
+    
     // int total_num_n=0;
     // for(uint64_t i=0;i<this->bucket_number;i++){
     //     this->Bucket_count[i] = Keywords_and_hash_func_in_bucket[i].size();
@@ -57,16 +57,16 @@ uint64_t DBClient::setup(){
     double term1 = 3.0 * (this->number_of_keywords) / bucket_num_n;
     double term2 = std::sqrt((6.0 * this->number_of_keywords * std::log(bucket_num_n)) / bucket_num_n);
 
-    // 向上取整并转换为整数
+    
     this->max_bucket_size = static_cast<uint64_t>(std::ceil(term1 + term2));
 
     this->max_bucket_size_old = this->max_bucket_size;
     if (this->debug){
         cout<<"Max bucket size: "<<this->max_bucket_size<<endl;
     }
-    //TODO: 去除比桶大小还要大的元素
+    
     for(uint64_t i=0;i<this->bucket_number;i++){
-        //i 表示bucket id
+        
         while(Keywords_and_hash_func_in_bucket[i].size()>this->max_bucket_size){
             string keyword;
             string value;
@@ -804,7 +804,7 @@ vector<string> DBClient::reconstruct(vector<string> bucket_content){
     this->S1[bucket_id].clear();
 
     if (bucket_id == 0){
-        //更新max bucket size
+        
         // int total_n=0;
         // for (uint64_t i=0;i<this->bucket_number;i++){
         //     total_n += this->Bucket_count[i];
@@ -814,7 +814,7 @@ vector<string> DBClient::reconstruct(vector<string> bucket_content){
         double term1 = 3.0*(Count) / b_bucket;
         double term2 = std::sqrt((6.0 * Count * std::log(b_bucket)) / b_bucket);
 
-        // 向上取整并转换为整数
+       
         uint64_t B_size = static_cast<uint64_t>(std::ceil(term1 + term2));
         this->max_bucket_size_old = this->max_bucket_size;
         this->max_bucket_size = B_size;
