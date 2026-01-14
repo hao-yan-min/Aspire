@@ -103,7 +103,7 @@ The project can be built using the following command.
   ```bash
   python3 run.py --type PIRANA --threads 16 --testcase 0
   ```
-
+  Running the complete benchmark requires at least 1 TB of RAM.
   ## Parameters
 
   |  Option  |                         Description                          |   Default    |
