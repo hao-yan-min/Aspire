@@ -26,7 +26,7 @@ The project can be built using the following command.
 * before clone code
 
   ```bash
-  git lfs init
+  git lfs install
   ```
 
 * Install Microsoft SEAL
@@ -47,7 +47,7 @@ The project can be built using the following command.
 * Install cryptopp
 
   ```bash
-  wget https://cryptopp.com/cryptopp870.zip
+  wget https://cryptopp.com/cryptopp870.zip --no-check-certificate
   
   unzip -a cryptopp870.zip -d cryptopp
   
@@ -68,7 +68,7 @@ The project can be built using the following command.
 
   ```bash
   git clone https://github.com/microsoft/Kuku.git
-  cd ./Kuku
+  cd Kuku
   cmake -S . -B build -DCMAKE_INSTALL_PREFIX=~/local && cmake --build 	build &&cmake --install build
   ```
 
@@ -95,7 +95,9 @@ The project can be built using the following command.
   # Test with Spiral-based Aspire
   ./build/main 512 341 18 32 2048 6 2 32 SpiralPIR
   ```
+
   *Note:* dim0 and dim1 are parameters for the Spiral scheme; please do not modify them arbitrarily.
+
 * fully test
 
   To run more comprehensive tests, you can execute:
@@ -103,11 +105,11 @@ The project can be built using the following command.
   ```bash
   python3 run.py --type PIRANA --threads 16 --testcase 0
   ```
-  Running the complete benchmark requires at least 1 TB of RAM.
+
   ## Parameters
 
   |  Option  |                         Description                          |   Default    |
   | :------: | :----------------------------------------------------------: | :----------: |
-  |   type   | The PIR/ORAM scheme used by Aspire; options include *ORAM*, *SpiralPIR*, and *PIRANA* |     ORAM     |
+  |   type   | The PIR/ORAM scheme used by Aspire; options include *ORAM*, *SpiralPIR*, and *PIRANA* （Running the SpiralPIR requires at least 1 TB of RAM.） |     ORAM     |
   | threads  |             Number of threads used for testing.              |      16      |
   | testcase | Test case to run: 1 for different element numbers, 2 for different value length, 3 for different bucket numbers, 0 for all tests. | 0 (test all) |
