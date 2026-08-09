@@ -49,7 +49,7 @@ The project can be built using the following command.
   ```bash
   wget https://cryptopp.com/cryptopp870.zip
   
-  unzip -a cryptopp890.zip -d cryptopp
+  unzip -a cryptopp870.zip -d cryptopp
   
   cd cryptopp
   
@@ -68,7 +68,7 @@ The project can be built using the following command.
 
   ```bash
   git clone https://github.com/microsoft/Kuku.git
-  cd ./KuKu
+  cd ./Kuku
   cmake -S . -B build -DCMAKE_INSTALL_PREFIX=~/local && cmake --build 	build &&cmake --install build
   ```
 
