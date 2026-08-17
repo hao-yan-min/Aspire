@@ -58,6 +58,18 @@ The project can be built using the following command.
   make install PREFIX=./install_x86_64
   ```
 
+  If the link has expired, the cryptopp can also be installed by 
+
+  ```bash
+  git clone --branch CRYPTOPP_8_7_0 --depth 1 https://github.com/weidai11/cryptopp.git
+  
+  cd cryptopp
+  
+  make static  -j4 
+  
+  make install PREFIX=./install_x86_64
+  ```
+
   **to test:**
 
   ```bash
