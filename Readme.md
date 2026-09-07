@@ -23,11 +23,6 @@ This repository contains the implement of PIRANA-based Aspire, Spiral-based Aspi
 
 The project can be built using the following command.
 
-* before clone code
-
-  ```bash
-  git lfs install
-  ```
 
 * Install Microsoft SEAL
 
@@ -45,20 +40,6 @@ The project can be built using the following command.
   ```
 
 * Install cryptopp
-
-  ```bash
-  wget https://cryptopp.com/cryptopp870.zip --no-check-certificate
-  
-  unzip -a cryptopp870.zip -d cryptopp
-  
-  cd cryptopp
-  
-  make static  -j4 
-  
-  make install PREFIX=./install_x86_64
-  ```
-
-  If the link has expired, the cryptopp can also be installed by 
 
   ```bash
   git clone --branch CRYPTOPP_8_7_0 --depth 1 https://github.com/weidai11/cryptopp.git
@@ -89,7 +70,7 @@ The project can be built using the following command.
   We can run the Aspire scheme on a database with $2^{18}$ entries and a payload size of 256 bytes using the following command.
 
   ```bash
-  python3 complie.py
+  python3 compile.py
   ```
 
 ​	Then run the benchmark. The command usage is as follows:

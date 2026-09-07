@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import argparse
 import time
 
-def run_complie(TEXP,TEXPRIGHT,TCONV,TGSW,QPBITS,PVALUE,QNUMFIRST,QNUMREST,OUTN,dim0,dim1):
+def run_compile(TEXP,TEXPRIGHT,TCONV,TGSW,QPBITS,PVALUE,QNUMFIRST,QNUMREST,OUTN,dim0,dim1):
     cmds = [
         ["rm","-rf","build"],
         ["cmake", "-S", ".", "-B", "build"],
@@ -75,7 +75,7 @@ if __name__ == "__main__":
             break
         print(f"testing with type={pir_type}, num_threads={num_threads},bucket num=512,valuesize=2^11 bit ,datasize =2^{nk}")
         if pir_type=="SpiralPIR" or nk==18:
-            res=run_complie(params[idx]["TEXP"],params[idx]["TEXPRIGHT"],params[idx]["TCONV"],params[idx]["TGSW"],params[idx]["QPBITS"],params[idx]["PVALUE"],params[idx]["QNUMFIRST"],params[idx]["QNUMREST"],params[idx]["OUTN"],params[idx]["dim0"],params[idx]["dim1"])
+            res=run_compile(params[idx]["TEXP"],params[idx]["TEXPRIGHT"],params[idx]["TCONV"],params[idx]["TGSW"],params[idx]["QPBITS"],params[idx]["PVALUE"],params[idx]["QNUMFIRST"],params[idx]["QNUMREST"],params[idx]["OUTN"],params[idx]["dim0"],params[idx]["dim1"])
         if res.returncode != 0:
             print(f"Error during compilation for kv={nk}:")
             print("STDOUT:", res.stdout)
@@ -106,7 +106,7 @@ if __name__ == "__main__":
             break
         print(f"testing with type={pir_type}, num_threads={num_threads},bucket num=512,datasize=2^20 ,valuesize =2^{vbl.bit_length()-1}")
         if pir_type=="SpiralPIR" or vbl==1024:
-            res=run_complie(params[idx]["TEXP"],params[idx]["TEXPRIGHT"],params[idx]["TCONV"],params[idx]["TGSW"],params[idx]["QPBITS"],params[idx]["PVALUE"],params[idx]["QNUMFIRST"],params[idx]["QNUMREST"],params[idx]["OUTN"],params[idx]["dim0"],params[idx]["dim1"])
+            res=run_compile(params[idx]["TEXP"],params[idx]["TEXPRIGHT"],params[idx]["TCONV"],params[idx]["TGSW"],params[idx]["QPBITS"],params[idx]["PVALUE"],params[idx]["QNUMFIRST"],params[idx]["QNUMREST"],params[idx]["OUTN"],params[idx]["dim0"],params[idx]["dim1"])
         if res.returncode != 0:
             print(f"Error during compilation for vbl={vl}:")
             print("STDOUT:", res.stdout)
@@ -120,7 +120,7 @@ if __name__ == "__main__":
         idx+=1
     if args.testcase ==2:
         exit(0)
-    # res=run_complie(params[idx]["TEXP"],params[idx]["TEXPRIGHT"],params[idx]["TCONV"],params[idx]["TGSW"],params[idx]["QPBITS"],params[idx]["PVALUE"],params[idx]["QNUMFIRST"],params[idx]["QNUMREST"],params[idx]["OUTN"],params[idx]["dim0"],params[idx]["dim1"])
+    # res=run_compile(params[idx]["TEXP"],params[idx]["TEXPRIGHT"],params[idx]["TCONV"],params[idx]["TGSW"],params[idx]["QPBITS"],params[idx]["PVALUE"],params[idx]["QNUMFIRST"],params[idx]["QNUMREST"],params[idx]["OUTN"],params[idx]["dim0"],params[idx]["dim1"])
     # if res.returncode != 0:
     #     print(f"Error during compilation for vbl={1024}:")
     #     print("STDOUT:", res.stdout)
@@ -145,7 +145,7 @@ if __name__ == "__main__":
             break
         print(f"testing with type={pir_type}, num_threads={num_threads},datasize=2^20,valuesize=2^11 ,bucket num ={b}")
         if pir_type=="SpiralPIR" or b==64:
-            res=run_complie(params[idx]["TEXP"],params[idx]["TEXPRIGHT"],params[idx]["TCONV"],params[idx]["TGSW"],params[idx]["QPBITS"],params[idx]["PVALUE"],params[idx]["QNUMFIRST"],params[idx]["QNUMREST"],params[idx]["OUTN"],params[idx]["dim0"],params[idx]["dim1"])
+            res=run_compile(params[idx]["TEXP"],params[idx]["TEXPRIGHT"],params[idx]["TCONV"],params[idx]["TGSW"],params[idx]["QPBITS"],params[idx]["PVALUE"],params[idx]["QNUMFIRST"],params[idx]["QNUMREST"],params[idx]["OUTN"],params[idx]["dim0"],params[idx]["dim1"])
         if res.returncode != 0:
             print(f"Error during compilation for idx={idx}:")
             print("STDOUT:", res.stdout)
@@ -158,7 +158,7 @@ if __name__ == "__main__":
         # main_0(512,300,20,32,vbl);
     
 
-    # res=run_complie(params[0]["TEXP"],params[0]["TEXPRIGHT"],params[0]["TCONV"],params[0]["TGSW"],params[0]["QPBITS"],params[0]["PVALUE"],params[0]["QNUMFIRST"],params[0]["QNUMREST"],params[0]["OUTN"],params[0]["dim0"],params[0]["dim1"])
+    # res=run_compile(params[0]["TEXP"],params[0]["TEXPRIGHT"],params[0]["TCONV"],params[0]["TGSW"],params[0]["QPBITS"],params[0]["PVALUE"],params[0]["QNUMFIRST"],params[0]["QNUMREST"],params[0]["OUTN"],params[0]["dim0"],params[0]["dim1"])
     # if res.returncode != 0:
     #     print("Error during compilation:")
     #     print("STDOUT:", res.stdout)
