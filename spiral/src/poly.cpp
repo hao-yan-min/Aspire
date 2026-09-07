@@ -516,30 +516,7 @@ bool is_eq(const MatPoly &A, const MatPoly &B) {
     ) == 0;
 }
 
-// void serialize(const MatPoly &mat, fstream &f) {
-//     assert(!mat.isNTT);
-//     for (size_t r = 0; r < mat.rows; r++) {
-//         for (size_t c = 0; c < mat.cols; c++) {
-//             for (size_t m = 0; m < coeff_count; m++) {
-//                 __uint128_t val = ((__uint128_t*)mat.data)[(r * mat.cols + c) * coeff_count + m];
-//                 f.write((char *)&val, 16);
-//             }
-//         }
-//     }
-// }
 
-// void deserialize(MatPoly &mat, size_t rs, size_t cs, fstream &f) {
-//     mat = MatPoly(rs, cs, false);
-//     uint64_t val[2];
-//     for (size_t r = 0; r < rs; r++) {
-//         for (size_t c = 0; c < cs; c++) {
-//             for (size_t m = 0; m < coeff_count; m++) {
-//                 f.read((char *)val, 16);
-//                 ((__uint128_t*)mat.data)[(r * cs + c) * coeff_count + m] = *((__uint128_t*)&val);
-//             }
-//         }
-//     }
-// }
 
 void build_from_constants(MatPoly &mat, vector<vector<uint64_t> > inp) {
     assert(!mat.isNTT);
@@ -606,20 +583,7 @@ void divide_by_const(MatPoly& out, const MatPoly& a, uint64_t numer, uint64_t de
     assert(!out.isNTT);
 
     for (size_t i = 0; i < a.rows * a.cols * coeff_count; i++) {
-        // int64_t inp_val = a.data[i] % denom;
-        // if (inp_val > denom / 2) {
-        //     inp_val -= denom;
-        // }
-        // __int128_t val = inp_val * (__uint128_t)numer;
-        // int64_t sign = val >= 0 ? 1 : -1;
-        // int64_t result = ((val + sign*denom/2) / denom) % mod;
-        // result = (result + (denom/mod)*mod + 2*mod) % mod;
-
-        // // int64_t result = (int64_t)round(((long double)inp_val) * ((long double)numer) / ((long double)(denom)));
-        // // __uint128_t val = inp_val * (__uint128_t)numer;
-        // // uint64_t result = (val + denom/2) / denom;
-        // // if (scaled_val < 0) scaled_val += mod;
-        // out.data[i] = (result + mod) % mod;
+        
         out.data[i] = rescale(a.data[i], denom, numer);
     }
 }

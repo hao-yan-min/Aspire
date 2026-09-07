@@ -2,42 +2,7 @@
 
 
 using namespace std;
-// RealDatabase::RealDatabase(uint64_t number_of_keywords,uint64_t keywords_bit_length,uint64_t value_bit_length,bool debug){
-//     this->number_of_keywords = number_of_keywords;
-//     this->keyword_bit_length = keywords_bit_length;
-//     this->value_bit_length = value_bit_length;
 
-//     this->keyword_hex_length = ceil(float(keywords_bit_length)/4);
-//     this->value_hex_length = ceil(float(value_bit_length)/4);
-    
-//     srand((unsigned)time(NULL)); //set seed for random generator
-    
-//     set<string> keywords;
-//     if (debug==true){
-//         cout<< "Generate Keywords Set." << endl;
-//     }
-//     // generate random keywords
-//     for(int i=0;i<this->number_of_keywords;i++){
-        
-//         string temp_string = generate_random_hex_string(this->keyword_hex_length);
-//         string zero_string(this->keyword_hex_length,'0');
-//         while (keywords.count(temp_string)>0 or temp_string == zero_string){
-//             temp_string = generate_random_hex_string(this->keyword_hex_length);
-//         }
-//         keywords.insert(temp_string);
-//     }
-    
-//     if (debug==true){
-//         cout<< "Generate Keyword-Value Paires." << endl;
-//     }
-//     // generate random keyword-value pairs
-//     for(auto it=keywords.begin();it!=keywords.end();++it){
-//         this->keywords.push_back(*it);
-//         string value = generate_random_hex_string(this->value_hex_length);
-//         this->values.push_back(value);
-//         this->keywords_values_map[*it] = value;
-//     }
-// }
 
 
 Database::Database(uint64_t number_of_keywords,uint64_t keywords_bit_length,uint64_t value_bit_length){
@@ -603,14 +568,4 @@ vector<uint64_t> get_ones_pos(vector<bool> cw_code){
     }
     return pos;
 }
-// if(i % int((this->number_of_keywords)/100)==0){
-//             printf("\r[%d%%]>[",i*100/(this->number_of_keywords));
-//             for(int j=1;j<=i*20/this->number_of_keywords;j++){
-// 			    cout<<"▉";
-// 	    	}
-//             for(int j=i*20/this->number_of_keywords+1;j<=20;j++){
-// 			    cout<<" ";
-// 	    	}
-//             cout<<"]";
-//             fflush(stdout);
-//         }
+

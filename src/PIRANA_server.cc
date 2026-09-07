@@ -43,50 +43,11 @@ void PIRANA_Server::batch_encode_db_from_client_to_ntt_db_without_compress() {
     for (uint64_t j = 0; j < this->Encrypted_db_from_client[i].size(); j++) {
       std::string ciphertext = Encrypted_db_from_client[i][j];
 
-      // std::string binary_str;
-      // for (unsigned char c : ciphertext) {
-      //     for (int bit = 7; bit >= 0; --bit) {
-      //         binary_str += ((c >> bit) & 1) ? '1' : '0';
-      //     }
-      // }
-      // set_binary_str_size(binary_str.size());
-      // size_t remainder = binary_str.size() % plain_prime_len;
-      // if (remainder != 0) {
-      //     binary_str.append(plain_prime_len - remainder, '0');
-      // }
-      // std::vector<uint32_t> int_segments;
-      // size_t total_len = binary_str.size();
-      // for (size_t pos = 0; pos + plain_prime_len <= total_len; pos += plain_prime_len) {
-      //     std::string segment = binary_str.substr(pos, plain_prime_len);
-      //     uint32_t value = std::stoi(segment, nullptr, 2); 
-      //     int_segments.push_back(value);
-      // }
-      // slots.push_back(int_segments);
+      
 
 
 
-      // std::string binary_str;
-      // binary_str.reserve(ciphertext.size() * 8);
-      // for (unsigned char c : ciphertext) {
-      //     std::bitset<8> b(c);
-      //     binary_str += b.to_string();
-      //     // for (int bit = 7; bit >= 0; --bit) {
-      //     //     binary_str += ((c >> bit) & 1) ? '1' : '0';
-      //     // }
-      // }
-      // set_binary_str_size(binary_str.size());
-      // size_t remainder = binary_str.size() % plain_prime_len;
-      // if (remainder != 0) {
-      //     binary_str.append(plain_prime_len - remainder, '0');
-      // }
-      // std::vector<uint32_t> int_segments;
-      // size_t total_len = binary_str.size();
-      // for (size_t pos = 0; pos + plain_prime_len <= total_len; pos += plain_prime_len) {
-      //     std::string segment = binary_str.substr(pos, plain_prime_len);
-      //     uint32_t value = std::stoi(segment, nullptr, 2); 
-      //     int_segments.push_back(value);
-      // }
-      // slots.push_back(int_segments);
+      
 
       std::vector<uint32_t> int_segments;
       uint32_t acc = 0;
@@ -159,45 +120,7 @@ vector<string> PIRANA_Server::get_bucket_content(uint64_t bucket_id,bool keep_en
     bucket_content = this->Encrypted_db_from_client[bucket_id];
   }
   else {
-    // vector<vector<uint32_t>> bucket(this->max_bucket_size, vector<uint32_t>(_pir_parms.get_num_payload_slot(), 0));
-    // for (uint64_t pl_slot_index = 0; pl_slot_index < _pir_parms.get_num_payload_slot(); pl_slot_index++) {
-    //   for (uint64_t col_index = 0; col_index < this->max_bucket_size; col_index++) {
-    //     uint64_t bundle_index = bucket_id / _N;
-    //     seal::Plaintext encoded_plain = _encoded_db.at(pl_slot_index * this->max_bucket_size * _pir_parms.get_bundle_size() +
-    //       col_index * _pir_parms.get_bundle_size() + bundle_index);
-    //     //_evaluator->transform_from_ntt_inplace(encoded_plain);
-    //     //seal::util::inverse_ntt_negacyclic_harvey(encoded_plain.data(), *_context->get_context_data(_context->first_parms_id())->plain_ntt_tables());
-    //     //auto test= _context->get_context_data(encoded_plain.parms_id())->qualifiers().using_fast_plain_lift;
-    //     //seal::util::RNSIter plain_iter(encoded_plain.data(), encoded_plain.coeff_count());
-    //     //auto ntt_tables = iter(_context->get_context_data(encoded_plain.parms_id())->plain_ntt_tables());
-    //     //size_t coeff_modulus_size = _context->get_context_data(encoded_plain.parms_id())->parms().coeff_modulus().size();
-    //     //seal::util::inverse_ntt_negacyclic_harvey(encoded_plain.data(), *_context->get_context_data(encoded_plain.parms_id())->plain_ntt_tables());
-        
-    //     assert(encoded_plain.is_ntt_form() == true &&
-    //            "Encoded plaintext in NTT form can not be decoded!");
-    //     vector<uint64_t> plain_vector(_N, 0);
-    //     _batch_encoder->decode(encoded_plain, plain_vector);
-    //     bucket[col_index][pl_slot_index] = plain_vector[bucket_id % _N];
-    //   }
-    // }
     
-    // for (uint64_t col_index = 0; col_index < this->max_bucket_size; col_index++) {
-    //   std::string ciphertext;
-    //   for (uint64_t pl_slot_index = 0; pl_slot_index < _pir_parms.get_num_payload_slot(); pl_slot_index++) {
-    //     uint32_t value = bucket[col_index][pl_slot_index];
-    //     std::string binary_str = std::bitset<16>(value).to_string(); // 16 bits for each payload
-    //     ciphertext += binary_str;
-    //   }
-    //   ciphertext = ciphertext.substr(0, this->get_binary_str_size()); // cut to the size of binary string
-    //   // transform the binary string to ciphertext
-    //   std::string ciphertext_str;
-    //   for (size_t i = 0; i < ciphertext.size(); i += 8) {
-    //     std::string byte_str = ciphertext.substr(i, 8);
-    //     char byte = static_cast<char>(std::stoi(byte_str, nullptr, 2));
-    //     ciphertext_str.push_back(byte);
-    //   }
-    //   bucket_content.push_back(ciphertext_str);
-    // }
   }
   return bucket_content;
 }
@@ -244,131 +167,7 @@ void PIRANA_Server::set_max_bucket_size() {
 }
 
 
-// void PIRANA_Server::gen_random_db() {
-//   //_raw_db (n, |pl|)
-//   auto num_payloads = _pir_parms.get_num_payloads();
-//   auto plain_modulus = _pir_parms.get_seal_parms().plain_modulus().value();
-//   auto plain_modulus_bit =
-//       _pir_parms.get_seal_parms().plain_modulus().bit_count();
-//   auto num_payload_slot = _pir_parms.get_num_payload_slot();
-//   uint64_t plain_mask = (1 << (plain_modulus_bit - 1)) - 1;
 
-//   // database read for encryption
-//   // each uint32_t save a plaintext < plain_modulus;
-//   std::cout << "Generate random database for test!" << std::endl;
-//   std::cout << "Raw database: " << num_payloads << " , (" << num_payload_slot
-//             << " * " << plain_modulus_bit - 1 << ") -> "
-//             << num_payload_slot * (plain_modulus_bit - 1) / 8 << " Bytes"
-//             << std::endl;
-//   _raw_db.resize(num_payloads);
-//   uint64_t pi = 0;
-//   for (auto &payload : _raw_db) {
-//     payload.resize(num_payload_slot);
-//     uint64_t test_i = 0;
-//     for (auto &data : payload) {
-//       // unsafe random generate, just for generating a test database
-//       data = rand() & plain_mask;
-//       // data = test_i & plain_mask;
-//       // data = pi & plain_mask;
-//       data = data == 0 ? 8888 : data;
-//       // assert for test
-//       assert(data < plain_modulus && data != 0);
-
-//       test_i++;
-//     }
-//     pi++;
-//   }
-// }
-
-// used for batch encode
-// void PIRANA_Server::batch_encode_to_ntt_db_without_compress() {
-//   assert(_set_db && "Database has not been loaded correctly!");
-//   std::cout << "Encode database now!" << std::endl;
-//   auto db_pt_size = _pir_parms.get_col_size() * _pir_parms.get_bundle_size() *
-//                     _pir_parms.get_num_payload_slot();
-//   // (col_size, num_slot)
-//   auto table = _pir_parms.get_cuckoo_table();
-//   auto bucket = _pir_parms.get_bucket();
-
-//   _encoded_db.resize(db_pt_size);
-
-//   std::vector<uint64_t> plain_vector(_N, 0);
-//   for (uint64_t pl_slot_index = 0;
-//        pl_slot_index < _pir_parms.get_num_payload_slot(); pl_slot_index++) {
-//     for (uint64_t col_index = 0; col_index < _pir_parms.get_col_size();
-//          col_index++) {
-//       for (uint32_t bundle_index = 0;
-//            bundle_index < _pir_parms.get_bundle_size(); bundle_index++) {
-//         seal::Plaintext encoded_plain;
-//         for (uint64_t i = 0; i < _N; i++) {
-//           if (col_index < bucket[bundle_index * _N + i].size()) {
-//             auto index = bucket[bundle_index * _N + i][col_index];
-//             plain_vector.at(i) = _raw_db.at(index).at(pl_slot_index);
-//           } else {
-//             // Dummy slot can't be 0
-//             // If bundle size > 2, then cause ALL zeros plaintext;
-//             plain_vector.at(i) = 1;
-//           }
-//         }
-//         _batch_encoder->encode(plain_vector, encoded_plain);
-//         _evaluator->transform_to_ntt_inplace(encoded_plain,
-//                                              _context->first_parms_id());
-//         _encoded_db.at(pl_slot_index * _pir_parms.get_col_size() *
-//                            _pir_parms.get_bundle_size() +
-//                        col_index * _pir_parms.get_bundle_size() +
-//                        bundle_index) = encoded_plain;
-//       }
-//     }
-//   }
-// }
-
-// // used for batch encode
-// void PIRANA_Server::batch_encode_to_ntt_db_with_compress() {
-//   assert(_pir_parms.get_is_compress() == true &&
-//          "Wrong call! only used when compress is true!");
-//   assert(_pir_parms.get_bundle_size() == 1 &&
-//          "Compress is useful only when the bundle size is 1");
-//   assert(_set_db && "Database has not been loaded correctly!");
-//   std::cout << "Encode database now!" << std::endl;
-//   auto compress_num_slot = _pir_parms.get_batch_pir_num_compress_slot();
-//   auto db_pt_size = _pir_parms.get_col_size() * compress_num_slot;
-//   auto table_size = _pir_parms.get_table_size();
-//   uint32_t num_slot = _pir_parms.get_num_slot();
-//   // (col_size, num_slot)
-//   auto table = _pir_parms.get_cuckoo_table();
-//   auto bucket = _pir_parms.get_bucket();
-
-//   _encoded_db.resize(db_pt_size);
-
-//   std::vector<uint64_t> plain_vector(_N, 0);
-//   for (uint64_t pl_slot_index = 0; pl_slot_index < compress_num_slot;
-//        pl_slot_index++) {
-//     for (uint64_t col_index = 0; col_index < _pir_parms.get_col_size();
-//          col_index++) {
-//       seal::Plaintext encoded_plain;
-//       for (uint32_t i = 0; i < table_size; i++) {
-//         for (uint32_t slot = 0; slot < num_slot; slot++) {
-//           if (col_index < bucket.at(i).size() &&
-//               (pl_slot_index * num_slot + slot) <
-//                   _pir_parms.get_num_payload_slot()) {
-//             auto index = bucket.at(i).at(col_index);
-//             plain_vector.at(i * num_slot + slot) =
-//                 _raw_db.at(index).at(pl_slot_index * num_slot + slot);
-//           } else {
-//             // Dummy slot can't be 0
-//             // If bundle size >= 2, then there will be ALL zeros plaintext;
-//             plain_vector.at(i * num_slot + slot) = 1;
-//           }
-//         }
-//       }
-//       _batch_encoder->encode(plain_vector, encoded_plain);
-//       _evaluator->transform_to_ntt_inplace(encoded_plain,
-//                                            _context->first_parms_id());
-//       _encoded_db.at(pl_slot_index * _pir_parms.get_col_size() + col_index) =
-//           encoded_plain;
-//     }
-//   }
-// }
 
 std::vector<seal::Ciphertext> PIRANA_Server::load_query(
     std::stringstream &query_stream, uint32_t query_ct_size) {
@@ -458,24 +257,7 @@ std::vector<seal::Ciphertext> PIRANA_Server::gen_selection_vector_batch(
       }
   }
 
-  // for (uint64_t i_1 = 1; i_1 < encoding_size && col_index < col_size; i_1++) {
-  //   for (uint64_t i_2 = 0; i_2 < i_1 && col_index < col_size; i_2++) {
-  //     for (uint32_t bundle_index = 0; bundle_index < bundle_size;
-  //          bundle_index++) {
-  //       multiply(*_context, query.at(i_1 * bundle_size + bundle_index),
-  //                query.at(i_2 * bundle_size + bundle_index),
-  //                selection_vector.at(col_index * bundle_size + bundle_index));
-  //       _evaluator->relinearize_inplace(
-  //           selection_vector.at(col_index * bundle_size + bundle_index),
-  //           _relin_keys);
-  //       _evaluator->transform_to_ntt_inplace(
-  //           selection_vector.at(col_index * bundle_size + bundle_index));
-  //     }
-  //     col_index++;
-  //   }
-  // }
-  // Todo: test selection vector debug
-  // selection_vector_debug(selection_vector);
+  
   return selection_vector;
 }
 
@@ -647,31 +429,7 @@ std::stringstream PIRANA_Server::inner_product(
   }
 
 
-  // std::vector<seal::Ciphertext> tmp_multi_res(col_size);
-  // for (uint32_t ct = 0; ct < num_ct; ct++) {
-  //   for (uint32_t bundle = 0; bundle < bundle_size; bundle++) {
-  //     for (uint32_t col = 0; col < col_size; col++) {
-  //       // encode_db (num_plot, col_size, bundle_size)
-  //       uint32_t plain_index =
-  //           ct * bundle_size * col_size + bundle + col * bundle_size;
-  //       uint32_t sv_index = bundle + bundle_size * col;
-  //       _evaluator->multiply_plain(selection_vector.at(sv_index), _encoded_db.at(plain_index), tmp_multi_res.at(col));
-
-  //       // seal::Plaintext tmp_plain = _encoded_db.at(plain_index);
-  //       // _evaluator->transform_to_ntt_inplace(tmp_plain,_context->first_parms_id());
-  //       // _evaluator->multiply_plain(selection_vector.at(sv_index), tmp_plain, tmp_multi_res.at(col));
-  //     }
-  //     _evaluator->add_many(tmp_multi_res,
-  //                          multi_add_res.at(ct * bundle_size + bundle));
-  //     _evaluator->transform_from_ntt_inplace(
-  //         multi_add_res.at(ct * bundle_size + bundle));
-  //     _evaluator->mod_switch_to_inplace(
-  //         multi_add_res.at(ct * bundle_size + bundle),
-  //         _context->last_parms_id());
-  //     try_clear_irrelevant_bits(_context->last_context_data()->parms(),
-  //                               multi_add_res.at(ct * bundle_size + bundle));
-  //   }
-  // }
+  
   for (auto &i : multi_add_res) {
     i.save(result);
   }

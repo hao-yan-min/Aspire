@@ -45,14 +45,7 @@ uint64_t DBClient::setup(){
     //get the max bucket size
     this->Bucket_count = vector<uint64_t>(this->bucket_number,0);
     
-    // int total_num_n=0;
-    // for(uint64_t i=0;i<this->bucket_number;i++){
-    //     this->Bucket_count[i] = Keywords_and_hash_func_in_bucket[i].size();
-    //     total_num_n += this->Bucket_count[i];
-    //     // if(this->Bucket_count[i]>this->max_bucket_size){
-    //     //     this->max_bucket_size = this->Bucket_count[i];
-    //     // }
-    // }
+    
     double bucket_num_n=static_cast<double>(this->bucket_number);
     double term1 = 3.0 * (this->number_of_keywords) / bucket_num_n;
     double term2 = std::sqrt((6.0 * this->number_of_keywords * std::log(bucket_num_n)) / bucket_num_n);
@@ -87,26 +80,7 @@ uint64_t DBClient::setup(){
     }
 
 
-    // if (keyword_to_value_and_hash_func.size() > this->max_bucket_size){ //if the bucket is full, we need to evict some keys
-    //     while (keyword_to_value_and_hash_func.size() > this->max_bucket_size){
-    //         string keyword;
-    //         string value;
-    //         uint64_t hash_func_id;
-    //         auto it = prev(keyword_to_value_and_hash_func.end());
-    //         keyword = it->first;
-    //         value = it->second.first;
-    //         hash_func_id = it->second.second;
-    //         keyword_to_value_and_hash_func.erase(it);
-    //         this->S1[bucket_id][keyword] = make_pair(ADD,hash_func_id);
-    //         if (this->S2.find(keyword) != this->S2.end()){
-    //             this->S2[keyword].second += 1;
-    //         }
-    //         else{
-    //             this->S2[keyword] = make_pair(value,1);
-    //         }
-    //     }
-    // }
-
+    
 
     //generate a minimal perfect hash function for each bucket
     this->MPH = new vector<sux::function::RecSplit<8>>(this->bucket_number);
@@ -326,12 +300,7 @@ vector<string> DBClient::query_generate_query_FakePIR(vector<string> keywords){
         auto [keyword_id,hash_func_id] = this->bucket2index_count[i];
 
         uint64_t id_pos = (*this->MPH)[i](toUpper(keywords[keyword_id]));
-        // if (this->reconstruct_time%this->bucket_number > i){
-        //     id_pos = id_pos%this->max_bucket_size;
-        // }
-        // else{
-        //     id_pos = id_pos%this->max_bucket_size_old;
-        // }
+        
 
         this->query_index_for_pir[i] = id_pos;
     }
@@ -805,10 +774,7 @@ vector<string> DBClient::reconstruct(vector<string> bucket_content){
 
     if (bucket_id == 0){
         
-        // int total_n=0;
-        // for (uint64_t i=0;i<this->bucket_number;i++){
-        //     total_n += this->Bucket_count[i];
-        // }
+       
         double Count = static_cast<double>(this->number_of_keywords);
         double b_bucket=static_cast<double>(this->bucket_number);
         double term1 = 3.0*(Count) / b_bucket;

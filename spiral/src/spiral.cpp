@@ -47,26 +47,14 @@ void PIR::spiral_PIR::modswitch(uint64_t *out, const uint64_t *inp) {
         for (size_t c = 0; c < cs; c++) {
             for (size_t m = 0; m < poly_len; m++) {
                 int64_t val = inp[r * cs * poly_len + c * poly_len + m];
-                // assert(val < Q_i);
-                // if (val > (Q_i_u128/2)) val -= Q_i_u128;
-                // double rounded_val = round(((double)val) / ((double)(qq_i)));
-                // long double dbl_val = ((long double)val) / ((long double)(factor_to_remove_obliviously));
-                // long double dbl_val = ((long double)val) * ((long double)(q_intermediate)) / ((long double) Q_i);
                 
-                // long double dbl_val = ((long double)val) * ((long double) arb_qprime) / ((long double) Q_i);
                 long double dbl_val = ((long double)val) * ((long double) arb_qprime) / ((long double) Q_i);
-                // cout << val << " -> " << (int64_t)round(dbl_val) << endl;
                 
-                // uint64_t val_mod_q = val % q_i;
-                // double mul_of_q = round((dbl_val - val_mod_q) / (long double)q_i);
-                // uint64_t result = q_const * ((uint64_t)mul_of_q) + val_mod_q;// % q_i;
                 int64_t result = (int64_t)round(dbl_val);
                 // if (result < 0) result += (switch_factor * q_const);
                 // result = (result + arb_qprime) % arb_qprime;
                 assert(result <= (int64_t)arb_qprime);
-                // assert(result >= 0);
-                // cout << ((r * cs * poly_len + c * poly_len + m) * bit_width) << endl;
-                // out[r * cs * poly_len + c * poly_len + m] = result;
+                
                 write_arbitrary_bits(out, result, bit_offs, bit_width);
                 // cout << result << " ";
                 bit_offs += bit_width;
@@ -74,46 +62,7 @@ void PIR::spiral_PIR::modswitch(uint64_t *out, const uint64_t *inp) {
         }
     }
 }
-// inp: n1 * n2 * poly_len * sizeof(uint64_t)
-// void modswitch(uint64_t *out, const uint64_t *inp) {
-//     size_t rs = n1;
-//     size_t cs = n2;
 
-//     size_t bit_offs = 0;
-//     size_t bit_width = bits_to_hold_arb_qprime;
-//     // cout << "PREE:";
-//     for (size_t r = 0; r < rs; r++) {
-//         for (size_t c = 0; c < cs; c++) {
-//             for (size_t m = 0; m < poly_len; m++) {
-//                 int64_t val = inp[r * cs * poly_len + c * poly_len + m];
-//                 // assert(val < Q_i);
-//                 // if (val > (Q_i_u128/2)) val -= Q_i_u128;
-//                 // double rounded_val = round(((double)val) / ((double)(qq_i)));
-//                 // long double dbl_val = ((long double)val) / ((long double)(factor_to_remove_obliviously));
-//                 // long double dbl_val = ((long double)val) * ((long double)(q_intermediate)) / ((long double) Q_i);
-                
-//                 // long double dbl_val = ((long double)val) * ((long double) arb_qprime) / ((long double) Q_i);
-//                 long double dbl_val = ((long double)val) * ((long double) arb_qprime) / ((long double) Q_i);
-//                 // cout << val << " -> " << (int64_t)round(dbl_val) << endl;
-                
-//                 // uint64_t val_mod_q = val % q_i;
-//                 // double mul_of_q = round((dbl_val - val_mod_q) / (long double)q_i);
-//                 // uint64_t result = q_const * ((uint64_t)mul_of_q) + val_mod_q;// % q_i;
-//                 int64_t result = (int64_t)round(dbl_val);
-//                 // if (result < 0) result += (switch_factor * q_const);
-//                 // result = (result + arb_qprime) % arb_qprime;
-//                 assert(result <= (int64_t)arb_qprime);
-//                 // assert(result >= 0);
-//                 // cout << ((r * cs * poly_len + c * poly_len + m) * bit_width) << endl;
-//                 // out[r * cs * poly_len + c * poly_len + m] = result;
-//                 write_arbitrary_bits(out, result, bit_offs, bit_width);
-//                 // cout << result << " ";
-//                 bit_offs += bit_width;
-//             }
-//         }
-//     }
-//     // cout << endl;
-// }
 
 auto start_stage = chrono::high_resolution_clock::now();
 auto start = chrono::high_resolution_clock::now();
@@ -125,29 +74,14 @@ void start_timing() {
     start = chrono::high_resolution_clock::now();
 }
 void record() {
-    // cout << "#\t\t\t\t\t" << stage;
-    // cout << " :"
-    //      << (chrono::high_resolution_clock::now() - start).count() / 1000
-    //      << endl;
-    // start = chrono::high_resolution_clock::now();
-    // stage++;
+    
 }
 void record(const string &s) {
-    // cout << "#" << s << "\t\t\t\t\t";
-    // cout << " "
-    //      << (chrono::high_resolution_clock::now() - start).count() / 1000
-    //      << endl;
-    // start = chrono::high_resolution_clock::now();
-    // stage++;
+    
 }
 double end_timing() {
     uint64_t duration_us = std::chrono::duration_cast<std::chrono::microseconds>(chrono::high_resolution_clock::now() - start_stage).count();
-    // double duration = (chrono::high_resolution_clock::now() - start_stage).count() / 1000;
-    // cout << "#\t\t\t\t\t";
-    // cout << "  >"
-    //      << duration
-    //      << endl;
-    // cout << "#\t\t\t\t\t END" << endl;
+   
     start_stage = chrono::high_resolution_clock::now();
     start = chrono::high_resolution_clock::now();
     stage = 0;
@@ -171,16 +105,7 @@ void PIR::spiral_PIR::setup_H_F_for_n2_eq_2()
         {0, 1}
     });
 }
-// void setup_H_F_for_n2_eq_2() {
-//     F_mp = MatPoly(n2, n2, false);
-//     memset(F_inv_vals, 0, sizeof(F_inv_vals));
 
-//     H_mp = MatPoly(n0, n2, false);
-//     build_from_constants(H_mp, {
-//         {1, 0},
-//         {0, 1}
-//     });
-// }
 void PIR::spiral_PIR::setup_constants()
 {
     if (n2 == 2) {
@@ -244,67 +169,7 @@ void PIR::spiral_PIR::setup_constants()
     constant_half = half_mp.data;
 }
 
-// void setup_constants() {
-//     if (n2 == 2) {
-//         setup_H_F_for_n2_eq_2();
-//     } else if (n2 == 3) {
-//         // setup_H_F_for_n2_eq_3();
-//     } else if (n2 == 4) {
-//         // setup_H_F_for_n2_eq_4();
-//     } else if (n2 == 6) {
-//         // setup_H_F_for_n2_eq_6();
-//     } else {
-//         cout << "unsupported value of n2" << endl;
-//         exit(1);
-//     }
 
-//     MatPoly ZO(n0, n2, false);
-//     MatPoly HF(n0, n2);
-//     MatPoly HF_plain(n0, n2, false);
-//     multiply(HF, to_ntt(H_mp), to_ntt(F_mp));
-//     from_ntt(HF_plain, HF);
-//     reduce_mod(HF_plain, p_i);
-//     bool ok = is_eq(HF_plain, ZO);
-//     cout << "HF == zero? " << ok << endl; 
-
-//     if (!ok) {
-//         cout << "HF = ";
-//         for (size_t i = 0; i < n0 * n2 * poly_len; i++) {
-//             cout << HF_plain.data[i] << " ";
-//         }
-//         cout << endl;
-//         exit(1);
-//     }
-
-//     size_t num_expansions_max = 16;
-//     MatPoly neg1s_pre(1, num_expansions_max, false);
-//     MatPoly neg1s(1, num_expansions_max, false);
-//     uint64_t *neg1s_data = (uint64_t *)neg1s_pre.data;
-//     for (size_t j = 0; j < num_expansions_max; j++) {
-//         size_t idx = poly_len - (1 << j);
-//         uint64_t val = 1;
-
-//         neg1s_data[j * poly_len + idx] = val;
-//     }
-//     invert(neg1s, neg1s_pre);
-
-//     MatPoly half(1, 1, false);
-//     half.data[0] = (Q_i + 1UL) / 2UL;
-
-//     MatPoly neg1s_nttd = to_ntt(neg1s);
-//     for (size_t i = 0; i < num_expansions_max; i++) {
-//         size_t idx = poly_len - (1 << i);
-//         MatPoly ng1(1, 1, false);
-//         ng1.data[idx] = 1; 
-//         MatPoly ng1_inv(1, 1, false);
-//         invert(ng1_inv, ng1);
-//         neg1s_mp.push_back(to_ntt(ng1_inv));
-//     }
-//     half_mp = to_ntt(half);
-
-//     constant_neg1s = neg1s_nttd.data;
-//     constant_half = half_mp.data;
-// }
 
 static void add_pub_param(const MatPoly &mat) {
     total_offline_size_b += mat.rows * mat.cols * poly_len * logQ / 8;
@@ -496,18 +361,7 @@ void split_and_crt(uint64_t * __restrict__ out, const uint64_t * __restrict__ in
 // reorient C : i  m  c nz
 //         to : z  i  c m
 void reorient_C(uint64_t * out, const uint64_t * inp, size_t num_per) {
-    // size_t idx = 0;
-    // for (size_t i = 0; i < num_per; i++) {
-    //     for (size_t m = 0; m < m2; m++) {
-    //         for (size_t c = 0; c < n2; c++) {
-    //             for (size_t z = 0; z < poly_len; z++) {
-    //                 size_t inp_idx = i * (m2 * n2 * crt_count * poly_len) + m * (n2 * crt_count * poly_len) + c * (crt_count * poly_len);
-    //                 size_t out_idx = z * (num_per*n2*m2) + i * (n2*m2) + c * (m2) + m;
-    //                 out[out_idx] = inp[inp_idx + z] | (inp[inp_idx + poly_len + z] << packed_offset);
-    //             }
-    //         }
-    //     }
-    // }
+    
     size_t blocksize_r = (2*num_per) < 64 ? (2*num_per) : 64;
     size_t blocksize_c = 128;
     size_t rows = num_per*m2*n2; // 18432
@@ -573,11 +427,7 @@ void reorientCiphertexts(uint64_t *out, const uint64_t *inp, size_t dim0, size_t
                                         + j * (2*n1_padded)
                                         + m * (n1_padded)
                                         + r;
-                    // out[idx_a_out] = inp[idx_a_in + z] | (inp[idx_a_in + poly_len + z] << packed_offset_1)  | (inp[idx_a_in + 2*poly_len + z] << packed_offset_2);
-                    // uint64_t val_pa = crt_compose_pa(inp[idx_a_in + z], inp[idx_a_in + poly_len + z]); 
-                    // out[idx_a_out] =  val_pa | (inp[idx_a_in + 2*poly_len + z] << packed_offset_2);
-                    // uint64_t val = crt_compose(inp[idx_a_in + z], inp[idx_a_in + poly_len + z], inp[idx_a_in + 2*poly_len + z]); 
-                    // out[idx_a_out] =  val;
+                   
                     out[idx_a_out] = inp[idx_a_in + z] | (inp[idx_a_in + poly_len + z] << 32);
                 }
             }

@@ -24,20 +24,7 @@ uint64_t calculate_encoding_size(uint64_t col_size, uint64_t hamming_weight)
   return encoding_size;
 }
 
-// uint64_t choose(uint64_t n, uint64_t k)
-// {
-//   if (k > n)
-//   {
-//     return 0;
-//   }
-//   uint64_t r = 1;
-//   for (uint64_t d = 1; d <= k; ++d)
-//   {
-//     r *= n--;
-//     r /= d;
-//   }
-//   return r;
-// }
+
 
 void try_clear_irrelevant_bits(
     const seal::EncryptionParameters &parms, seal::Ciphertext &ciphertext)

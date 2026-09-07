@@ -50,10 +50,7 @@ int main(int argc, char** argv)
     Spiral_server::dim0=dim0;
     Spiral_server::further_dims=dim1;
     omp_set_num_threads(num_thread);
-    // auto kv={18,19,20,21,22,23};
-    // auto kv={18};
-    // cout<<"----------------test stage 1----------------"<<endl;
-    // logs<<"----------------test stage 1----------------"<<endl;
+    
     logs<<"----------------New Test----------------"<<endl;
     main_0(bn,qn,nk,kbl,vbl,pir_type);
     logs.close();
@@ -75,18 +72,6 @@ int main_0(int bn,int qn,int nk,
     bool debug=false;
 
 
-    // uint64_t poly_module_degree = 1<<13;
-    // uint64_t batch_prime_bitlength = 23;
-    // uint64_t number_of_keywords=1<<20; //
-    // uint64_t number_of_values = 1<<20; //
-    // uint64_t keywords_bit_length=1024;
-    // uint64_t value_bit_length=1024;
-
-    // //bucket number needs to divide the poly_module_degree
-    // uint64_t bucket_number=128;
-
-    // uint64_t query_number = 80;
-
 
     uint64_t poly_module_degree = 1<<13;
     uint64_t batch_prime_bitlength = 23;
@@ -102,77 +87,14 @@ int main_0(int bn,int qn,int nk,
 
 
 
-    // uint64_t poly_module_degree = 1<<13;
-    // uint64_t batch_prime_bitlength = 23;
-    // uint64_t number_of_keywords=2048; //
-    // uint64_t number_of_values = 2048; //
-    // uint64_t keywords_bit_length=32;
-    // uint64_t value_bit_length=32;
-
-    // //bucket number needs to divide the poly_module_degree
-    // uint64_t bucket_number=2048;
-
-    // uint64_t query_number = 1024;
+    
 
     uint64_t hash_func_number=3;
     uint64_t hamming_weight = 2;
 
-    // const char * type = argv[1];
-
+    
     int opt;
-    // while(1){
-
-    //     int option_index = 0;
-    //     static struct option long_options[] = 
-    //     {
-    //         {"test_case",optional_argument, NULL,'t' },
-    //         {"debug",optional_argument, NULL,'d' },
-    //         {"keyword_bit_length",optional_argument, NULL,'k' },
-    //         {"bucket_number",optional_argument, NULL,'c'},
-    //         {"value_bit_length",optional_argument, NULL,'v' },
-    //         {"number_of_keywords",optional_argument, NULL,'n' },
-    //         {"number_of_values",optional_argument, NULL,'a' },
-    //         {"poly_module_degree",optional_argument, NULL,'p' },
-    //         {"batch_prime_bitlength",optional_argument, NULL,'l' }
-    //     };
-
-    //     opt = getopt_long(argc, argv, "c:t", long_options, &option_index);
-    //     if (opt == -1)
-    //         break;
-    //     switch(opt){  
-    //         case 't':
-    //             test_case = stoi(optarg);
-    //             break;
-    //         case 'd':
-    //             debug = stoi(optarg);
-    //             break;
-    //         case 'k':
-    //             keywords_bit_length = stoi(optarg);
-    //             break;
-    //         case 'v':
-    //             value_bit_length = stoi(optarg);
-    //             break;
-    //         case 'n':
-    //             number_of_keywords = stoi(optarg);
-    //             break;
-    //         case 'a':
-    //             number_of_values = stoi(optarg);
-    //             break;
-    //         case 'p':
-    //             poly_module_degree = stoi(optarg);
-    //             break;
-    //         case 'l':
-    //             batch_prime_bitlength = stoi(optarg);
-    //             break;
-    //         case 'c':
-    //             bucket_number = stoi(optarg);
-    //             query_number = bucket_number/1.5;
-    //         case '?':
-    //             printf("unknown option: %c\n", optopt); 
-    //             break; 
-            
-    //     }
-    // }
+   
     cout << "Test: " << test_case << endl;
 
 
@@ -323,157 +245,7 @@ int main_0(int bn,int qn,int nk,
         }
         logs<<"stash size: "<<num_in_stash<<endl;
        
-    //     {
-    //     ////////test query//////////
-    //     cout<< "Test query" << endl;
-    //     vector<string> keywords_query1=db.get_multi_random_keyword(query_number);
-    //     vector<string> queries_query1 = client.query_generate_query_FakePIR(keywords_query1);
-    //     vector<string> responses_query1 = server.query_response_FakePIR(queries_query1);
-    //     vector<string> results_query1 = client.query_recovery_FakePIR(responses_query1);
-
-    //     ///////test query keywords that are not in the database////////
-    //     cout<< "Test query keywords that are not in the database" << endl;
-    //     vector<string> keywords_query2=db.get_multi_random_keyword(query_number/2);
-    //     string keyword_not_in_db,value;
-    //     for (uint64_t i=0;i<query_number-query_number/2;i++){
-    //         auto it = db.generate_new_kv_pair();
-    //         keyword_not_in_db = it.first;
-    //         keywords_query2.push_back(keyword_not_in_db);
-    //     }
-    //     vector<string> queries_query2 = client.query_generate_query_FakePIR(keywords_query2);
-    //     vector<string> responses_query2 = server.query_response_FakePIR(queries_query2);
-    //     vector<string> results_query2 = client.query_recovery_FakePIR(responses_query2);
-
-    //     ////////test add//////////
-    //     cout<< "Test add" << endl;
-    //     string keyword_add,value_add;
-    //     map<string,string> added_keywords_values_map;
-    //     uint64_t query_number_add = 1000;
-    //     for (uint64_t i=0;i<query_number_add;i++){
-    //         auto it = db.generate_new_kv_pair();
-    //         keyword_add = it.first;
-    //         value_add = it.second;
-    //         db.add(keyword_add,value_add);
-    //         client.add(keyword_add,value_add);
-    //         added_keywords_values_map[keyword_add] = value_add;
-    //     }
-    //     vector<string> keywords_query3 = db.get_multi_random_keyword(query_number/2);
-    //     for (uint64_t i=0;i<query_number-query_number/2;i++){
-    //         keywords_query3.push_back(added_keywords_values_map.begin()->first);
-    //         added_keywords_values_map.erase(added_keywords_values_map.begin());
-    //     }
-    //     vector<string> queries_query3 = client.query_generate_query_FakePIR(keywords_query3);
-    //     vector<string> responses_query3 = server.query_response_FakePIR(queries_query3);
-    //     vector<string> results_query3 = client.query_recovery_FakePIR(responses_query3);
-
-    //     /////////test delete////////
-    //     cout<< "Test delete" << endl;
-    //     string keyword_del;
-    //     uint64_t query_number_del = 1000;
-    //     vector<string> keywords_to_del = db.get_multi_random_keyword(query_number_del);
-    //     for (uint64_t i=0;i<query_number_del;i++){
-    //         keyword_del = keywords_to_del[i];
-    //         db.del(keyword_del);
-    //         client.del(keyword_del);
-    //     }
-    //     vector<string> keywords_query4 = db.get_multi_random_keyword(query_number/2);
-    //     for (uint64_t i=0;i<query_number-query_number/2;i++){
-    //         keywords_query4.push_back(keywords_to_del[i]);
-    //     }
-    //     vector<string> queries_query4 = client.query_generate_query_FakePIR(keywords_query4);
-    //     vector<string> responses_query4 = server.query_response_FakePIR(queries_query4);    
-    //     vector<string> results_query4 = client.query_recovery_FakePIR(responses_query4);
-
-    //     ////////test reconstruction//////////
-    //     cout<< "Test reconstruction" << endl;
-    //     for (uint64_t i=0;i<bucket_number;i++){
-    //         vector<string> bucket_content = server.get_bucket_content();
-    //         vector<string> encrypted_bucket_content = client.reconstruct(bucket_content);
-    //         server.reconstruct_bucket_content(encrypted_bucket_content);
-    //     }
-        
-    //     vector<string> keywords_query5 = db.get_multi_random_keyword(query_number);
-    //     vector<string> queries_query5 = client.query_generate_query_FakePIR(keywords_query5);
-    //     vector<string> responses_query5 = server.query_response_FakePIR(queries_query5);
-    //     vector<string> results_query5 = client.query_recovery_FakePIR(responses_query5);
-
-    //     for (uint64_t i=0;i<bucket_number;i++){
-    //         vector<string> bucket_content = server.get_bucket_content();
-    //         vector<string> encrypted_bucket_content = client.reconstruct(bucket_content);
-    //         server.reconstruct_bucket_content(encrypted_bucket_content);
-    //     }
-
-    //     vector<string> keywords_query6 = db.get_multi_random_keyword(query_number);
-    //     vector<string> queries_query6 = client.query_generate_query_FakePIR(keywords_query6);
-    //     vector<string> responses_query6 = server.query_response_FakePIR(queries_query6);
-    //     vector<string> results_query6 = client.query_recovery_FakePIR(responses_query6);
-    // }
-
-    // ///////test round 2 (repeat above tests)//////////
-    //     {
-    //     ////////test round 2//////////
-    //     cout<< "Test round 2" << endl;
-    //     ////////test query//////////
-    //     cout<< "Test query" << endl;
-    //     vector<string> keywords_query1=db.get_multi_random_keyword(query_number);
-    //     vector<string> queries_query1 = client.query_generate_query_FakePIR(keywords_query1);
-    //     vector<string> responses_query1 = server.query_response_FakePIR(queries_query1);
-    //     vector<string> results_query1 = client.query_recovery_FakePIR(responses_query1);
-
-    //     ///////test query keywords that are not in the database////////
-    //     cout<< "Test query keywords that are not in the database" << endl;
-    //     vector<string> keywords_query2=db.get_multi_random_keyword(query_number/2);
-    //     string keyword_not_in_db,value;
-    //     for (uint64_t i=0;i<query_number-query_number/2;i++){
-    //         auto it = db.generate_new_kv_pair();
-    //         keyword_not_in_db = it.first;
-    //         keywords_query2.push_back(keyword_not_in_db);
-    //     }
-    //     vector<string> queries_query2 = client.query_generate_query_FakePIR(keywords_query2);
-    //     vector<string> responses_query2 = server.query_response_FakePIR(queries_query2);
-    //     vector<string> results_query2 = client.query_recovery_FakePIR(responses_query2);
-
-    //     ////////test add//////////
-    //     cout<< "Test add" << endl;
-    //     string keyword_add,value_add;
-    //     map<string,string> added_keywords_values_map;
-    //     uint64_t query_number_add = 1000;
-    //     for (uint64_t i=0;i<query_number_add;i++){
-    //         auto it = db.generate_new_kv_pair();
-    //         keyword_add = it.first;
-    //         value_add = it.second;
-    //         db.add(keyword_add,value_add);
-    //         client.add(keyword_add,value_add);
-    //         added_keywords_values_map[keyword_add] = value_add;
-    //     }
-    //     vector<string> keywords_query3 = db.get_multi_random_keyword(query_number/2);
-    //     for (uint64_t i=0;i<query_number-query_number/2;i++){
-    //         keywords_query3.push_back(added_keywords_values_map.begin()->first);
-    //         added_keywords_values_map.erase(added_keywords_values_map.begin());
-    //     }
-    //     vector<string> queries_query3 = client.query_generate_query_FakePIR(keywords_query3);
-    //     vector<string> responses_query3 = server.query_response_FakePIR(queries_query3);
-    //     vector<string> results_query3 = client.query_recovery_FakePIR(responses_query3);
-
-    //     /////////test delete////////
-    //     cout<< "Test delete" << endl;
-    //     string keyword_del;
-    //     uint64_t query_number_del = 1000;
-    //     vector<string> keywords_to_del = db.get_multi_random_keyword(query_number_del);
-    //     for (uint64_t i=0;i<query_number_del;i++){
-    //         keyword_del = keywords_to_del[i];
-    //         db.del(keyword_del);
-    //         client.del(keyword_del);
-    //     }
-    //     vector<string> keywords_query4 = db.get_multi_random_keyword(query_number/2);
-    //     for (uint64_t i=0;i<query_number-query_number/2;i++){
-    //         keywords_query4.push_back(keywords_to_del[i]);
-    //     }
-    //     vector<string> queries_query4 = client.query_generate_query_FakePIR(keywords_query4);
-    //     vector<string> responses_query4 = server.query_response_FakePIR(queries_query4);    
-    //     vector<string> results_query4 = client.query_recovery_FakePIR(responses_query4);
-
-        ////////test reconstruction//////////
+   
         cout<< "Test reconstruction" << endl;
         commu_cost = 0;
         timer.reset();
@@ -514,18 +286,7 @@ int main_0(int bn,int qn,int nk,
             logs<<"Reconstruction time: "<<reconstruction_time<<" ms"<<endl;
         
         }
-    // //     for (uint64_t i=0;i<bucket_number/2;i++){
-    // //         vector<string> bucket_content = server.get_bucket_content();
-    // //         vector<string> encrypted_bucket_content = client.reconstruct(bucket_content);
-    // //         server.reconstruct_bucket_content(encrypted_bucket_content);
-    // //     }
-
-    // //     vector<string> keywords_query6 = db.get_multi_random_keyword(query_number);
-    // //     vector<string> queries_query6 = client.query_generate_query_FakePIR(keywords_query6);
-    // //     vector<string> responses_query6 = server.query_response_FakePIR(queries_query6);
-    // //     vector<string> results_query6 = client.query_recovery_FakePIR(responses_query6);
-    // //     cout<< "Test round 2 finished" << endl;
-    // // }
+    
         cout<< "Test Finished" <<endl;
         logs<<"Test Finished" <<endl<<endl;
         cout<<endl;
@@ -587,71 +348,7 @@ int main_0(int bn,int qn,int nk,
         cout<<"Total time for query: "<<time.elapsed()<<" ms"<<endl;
         cout<<"commu cost for query: "<<commu_cost/(1024.0*1024.0)<<" MB"<<endl;
         cout<<"Test Finished"<<endl;
-        //TODO: add correctness check
-        // cout<< "Test add" << endl;
-        // string keyword_add,value_add;
-        // map<string,string> added_keywords_values_map;
-        // uint64_t query_number_add = 1000;
-        // for (uint64_t i=0;i<query_number_add;i++){
-        //     auto it = db.generate_new_kv_pair();
-        //     keyword_add = it.first;
-        //     value_add = it.second;
-        //     db.add(keyword_add,value_add);
-        //     client.add(keyword_add,value_add);
-        //     added_keywords_values_map[keyword_add] = value_add;
-        // }
-        // vector<string> keywords_query3 = db.get_multi_random_keyword(query_number/2);
-        // for (uint64_t i=0;i<query_number-query_number/2;i++){
-        //     keywords_query3.push_back(added_keywords_values_map.begin()->first);
-        //     added_keywords_values_map.erase(added_keywords_values_map.begin());
-        // }
-        // stringstream queries_query3 = client.query_generate_query_PIRANA(keywords_query3);
-        // stringstream responses_query3 = server.query_response_PIRANA(queries_query3);
-        // vector<string> results_query3 = client.query_recovery_PIRANA(responses_query3);
-
-        // /////////test delete////////
-        // cout<< "Test delete" << endl;
-        // string keyword_del;
-        // uint64_t query_number_del = 1000;
-        // vector<string> keywords_to_del = db.get_multi_random_keyword(query_number_del);
-        // for (uint64_t i=0;i<query_number_del;i++){
-        //     keyword_del = keywords_to_del[i];
-        //     db.del(keyword_del);
-        //     client.del(keyword_del);
-        // }
-        // vector<string> keywords_query4 = db.get_multi_random_keyword(query_number/2);
-        // for (uint64_t i=0;i<query_number-query_number/2;i++){
-        //     keywords_query4.push_back(keywords_to_del[i]);
-        // }
-        // stringstream queries_query4 = client.query_generate_query_PIRANA(keywords_query4);
-        // stringstream responses_query4 = server.query_response_PIRANA(queries_query4);
-        // vector<string> results_query4 = client.query_recovery_PIRANA(responses_query4);
-
-        // ////test reconstruction//////////
-        // cout<< "Test reconstruction" << endl;
-        // for (uint64_t i=0;i<2000;i++){
-        //     cout << "Reconstructing bucket " << i+1 << " of " << bucket_number << endl;
-        //     vector<string> bucket_content = server.get_bucket_content();
-        //     vector<string> encrypted_bucket_content = client.reconstruct(bucket_content);
-        //     server.reconstruct_bucket_content(encrypted_bucket_content);
-        // }
-        // vector<string> keywords_query5 = db.get_multi_random_keyword(query_number);
-        // stringstream queries_query5 = client.query_generate_query_PIRANA(keywords_query5);
-        // stringstream responses_query5 = server.query_response_PIRANA(queries_query5);
-        // vector<string> results_query5 = client.query_recovery_PIRANA(responses_query5);
-
-        // ////test reconstruction//////////
-        // // cout<< "Test reconstruction" << endl;
-        // // for (uint64_t i=0;i<300;i++){
-        // //     cout << "Reconstructing bucket " << i+1 << " of " << bucket_number << endl;
-        // //     vector<string> bucket_content = server.get_bucket_content();
-        // //     vector<string> encrypted_bucket_content = client.reconstruct(bucket_content);
-        // //     server.reconstruct_bucket_content(encrypted_bucket_content);
-        // // }
-        // vector<string> keywords_query6 = db.get_multi_random_keyword(query_number);
-        // stringstream queries_query6 = client.query_generate_query_PIRANA(keywords_query6);
-        // stringstream responses_query6 = server.query_response_PIRANA(queries_query6);
-        // vector<string> results_query6 = client.query_recovery_PIRANA(responses_query6);
+        
 
     }
     else if (test_case == 3)
@@ -763,17 +460,10 @@ int main_0(int bn,int qn,int nk,
 
         cout<<"Storage and Reconstruct Cost Test"<<endl;
         vector<map<string,uint64_t>> test_parameters = {
-            // {{"number_of_keywords",1<<16},{"bucket_number",bucket_number},{"keywords_bit_length",32},{"value_bit_length",32}},
-            // {{"number_of_keywords",1<<16},{"bucket_number",bucket_number},{"keywords_bit_length",32},{"value_bit_length",1024}},
-            // {{"number_of_keywords",1<<16},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",1024}},
-            // {{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",32},{"value_bit_length",32}},
-
-            //{{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",32},{"value_bit_length",1024}},
-            //{{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",1024}},
+            
             {{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",65536}},
 
-            // {{"number_of_keywords",1<<24},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",1024}},
-            // {{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",20*1024*8}},
+          
         };
         uint64_t updates_per_reconstruct = 10;
         uint64_t reconstruction_times = 10;
@@ -839,13 +529,9 @@ int main_0(int bn,int qn,int nk,
                 reconstruct_time_S += chrono::duration_cast<chrono::microseconds>(time_end_local - time_start_local).count();
             }
 
-            // cout << "Total update time: " << update_time << " microseconds" << endl;
-            // cout << "Total reconstruct time (Client): " << reconstruct_time_C << " microseconds" << endl;
-            // cout << "Total reconstruct time (Server): " << reconstruct_time_S << " microseconds" << endl;
-            //cout << "Average update time: " << update_time / (reconstruction_times * updates_per_reconstruct) << " microseconds" << endl;
-            //cout << "Average reconstruct time (Client): " << reconstruct_time_C / reconstruction_times << " microseconds" << endl;
+            
             cout << "Average reconstruct time (Server): " << reconstruct_time_S / reconstruction_times << " microseconds" << endl;
-            //cout << "Storage cost (Client, Stash and MPH): " << client.get_storage_size() << " bytes" << endl;
+            
             cout << "Storage cost (Server, Database): " << server.PIR->get_storage_size() << " bytes" << endl;
             cout << "----------------------------------------" << endl;
         }
@@ -857,17 +543,10 @@ int main_0(int bn,int qn,int nk,
 
         cout<<"Storage and Reconstruct Cost Test"<<endl;
         vector<map<string,uint64_t>> test_parameters = {
-            // {{"number_of_keywords",1<<16},{"bucket_number",bucket_number},{"keywords_bit_length",32},{"value_bit_length",32}},
-            // {{"number_of_keywords",1<<16},{"bucket_number",bucket_number},{"keywords_bit_length",32},{"value_bit_length",1024}},
-            // {{"number_of_keywords",1<<16},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",1024}},
-            // {{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",32},{"value_bit_length",32}},
-
-            // {{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",32},{"value_bit_length",1024}},
-            // {{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",1024}},
-            // {{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",65536}}
+            
 
             {{"number_of_keywords",1<<24},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",1024}},
-            // {{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",20*1024*8}},
+            
         };
         uint64_t updates_per_reconstruct = 10;
         uint64_t reconstruction_times = 8192;
@@ -935,7 +614,7 @@ int main_0(int bn,int qn,int nk,
             cout << "Average update time: " << update_time / (reconstruction_times * updates_per_reconstruct) << " microseconds" << endl;
             cout << "Average reconstruct time (Client): " << reconstruct_time_C / reconstruction_times << " microseconds" << endl;
             cout << "Storage cost (Client, Stash and MPH): " << client.get_storage_size() << " bytes" << endl;
-            //cout << "Storage cost (Server, Database): " << server.PIR->get_storage_size() << " bytes" << endl;
+            
             cout << "----------------------------------------" << endl;
         }
     }
@@ -948,16 +627,7 @@ int main_0(int bn,int qn,int nk,
         cout<<"Storage and Communication Cost Test"<<endl;
         vector<map<string,uint64_t>> test_parameters = {
              {{"number_of_keywords",number_of_keywords},{"bucket_number",bucket_number},{"keywords_bit_length",keywords_bit_length},{"value_bit_length",value_bit_length}},
-            //{{"number_of_keywords",1<<16},{"bucket_number",bucket_number},{"keywords_bit_length",32},{"value_bit_length",1024}},
-            // {{"number_of_keywords",1<<16},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",1024}},
-            // {{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",32},{"value_bit_length",32}},
-
-            //{{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",32},{"value_bit_length",1024}},
-            // {{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",1024}},
-            //{{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",65536}},
-
-            //{{"number_of_keywords",1<<24},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",1024}},
-            // {{"number_of_keywords",1<<20},{"bucket_number",bucket_number},{"keywords_bit_length",1024},{"value_bit_length",20*1024*8}},
+            
         };
         uint64_t updates_per_reconstruct = 10;
         uint64_t reconstruction_times = 5;
@@ -1020,8 +690,7 @@ int main_0(int bn,int qn,int nk,
             time_end_local = chrono::high_resolution_clock::now();
             setup_time_S = chrono::duration_cast<chrono::microseconds>(time_end_local - time_start_local).count();
 
-            // cout << "Storage cost (Server, Database): " << server.PIR->get_storage_size() << " bytes" << endl;
-            // logs << "Storage cost (Server, Database): " << server.PIR->get_storage_size() << " bytes" << endl;
+            
             logs << "Total setup time: " << setup_duration << " ms" << endl;
             for (uint64_t i=0;i<reconstruction_times;i++){
                 cout<< "Reconstructing bucket " << i+1 << " of " << reconstruction_times << endl;
