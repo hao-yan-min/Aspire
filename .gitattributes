@@ -1,3 +1,0 @@
-cryptopp/** filter=lfs diff=lfs merge=lfs -text
-cryptopp/cryptest.exe filter=lfs diff=lfs merge=lfs -text
-cryptopp/install_x86_64/lib/libcryptopp.a filter=lfs diff=lfs merge=lfs -text

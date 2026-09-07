@@ -79,7 +79,7 @@ int Bucket::getMaxSize() {
 }
 
 void Bucket::resetState(){
-    is_init = false;
+    // is_init = false;
 }
 
 void Bucket::printBlocks() {
