@@ -1,5 +1,5 @@
 # Aspire: Zero-Leakage Private Key-Value Storage Based on PIR
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22813536.svg)](https://doi.org/10.5281/zenodo.22813536)
 
 
 Aspire is a research library and should not be used in production systems.
