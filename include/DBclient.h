@@ -29,6 +29,7 @@ class DBClient{
     public:
     bool debug = false;
     int number_of_keywords ;
+    int num_pos_map_oram= 0 ; //record the number of position map for ORAM, each position map is a vector of uint32_t, the size of the vector is the number of keywords in the database
     Database* DB;
     vector<vector<string>> Encrypted_KV;
     ~DBClient();

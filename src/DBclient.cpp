@@ -12,6 +12,7 @@ DBClient::DBClient(Database* DB,BatchCodeParams batch_code_params,string PIRType
     this->query_number = batch_code_params.query_number;
     this->PIRs=nullptr;
     this->S1 = vector<map<string, pair<Update_Type,uint64_t>>>(this->bucket_number,map<string, pair<Update_Type,uint64_t>>());
+    this->num_pos_map_oram = 0;
 }
 
 uint64_t DBClient::setup(){
@@ -884,6 +885,11 @@ uint64_t DBClient::get_storage_size(){
         MPH_stream<<(*this->MPH)[i];
         MPH_size += MPH_stream.str().size();
         MPH_stream.str(""); // clear the stream for the next bucket
+    }
+    if (this->PIRType == "ORAM"){
+        // calculate the size of the position map for ORAM
+        uint64_t position_map_size = this->num_pos_map_oram * 4; // assuming each position is stored as a 32-bit integer
+        return (S1_size + S2_size)/8 + MPH_size + position_map_size;
     }
     return (S1_size + S2_size)/8 + MPH_size;
 }

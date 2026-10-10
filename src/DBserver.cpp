@@ -9,6 +9,15 @@ DBServer::DBServer(vector<vector<string>> Encrypted_db, DBClient *client){
     this->PIRType = client->PIRType;
     this->FakePIRs =nullptr;
     this->PIR = nullptr;
+    if (this->PIRType=="ORAM"){
+        for(auto &item: Encrypted_db){
+            // calculate the size of the position map for ORAM
+            int res=ceil(log2l(item.size()));
+            int num_size=1<<res;
+            this->client->num_pos_map_oram += num_size;
+        }   
+    }
+    
 }
 DBServer::~DBServer(){
     if (this->FakePIRs != NULL){
@@ -165,6 +174,9 @@ void DBServer::reconstruct_bucket_content(vector<string> encrypted_bucket_conten
     else if (this->PIRType == "ORAM"){
         auto ptr = std::make_unique<oram_server_wrapper>(encrypted_bucket_content);
         this->oram_servers_uptr[this->reconstruct_time%this->bucket_number] = std::move(ptr);
+        int res=ceil(log2l(encrypted_bucket_content.size()));
+        int num_size=1<<res;
+        this->client->num_pos_map_oram += num_size;
     }
     else if (this->PIRType == "PIRANA"){
         #ifdef TEST_FOR_DEBUG
